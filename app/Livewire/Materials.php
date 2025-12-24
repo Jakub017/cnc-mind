@@ -47,6 +47,11 @@ class Materials extends Component
         ]);
 
          $this->modal('add-material')->close();
+         $this->dispatch('toastMagic',
+            status: 'success',
+            title: __('Material added'),
+            message: __('Material has been successfully added.'),
+        );
     }
 
     public function editMaterial(Material $material)
@@ -81,11 +86,21 @@ class Materials extends Component
         ]);
 
         $this->modal('edit-material')->close();
+        $this->dispatch('toastMagic',
+            status: 'success',
+            title: __('Material updated'),
+            message: __('Material has been successfully updated.'),
+        );
     }
 
     public function deleteMaterial(Material $material)
     {
         auth()->user()->materials()->where('id', $material->id)->delete();
+        $this->dispatch('toastMagic',
+            status: 'success',
+            title: __('Material deleted'),
+            message: __('Material has been successfully deleted.'),
+        );
     }
 
     public function render()
