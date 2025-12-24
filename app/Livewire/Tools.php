@@ -8,6 +8,8 @@ use App\Models\Tool;
 
 class Tools extends Component
 {
+    public ?Tool $editing_tool = null;
+
     #[Validate('required|string|max:255')]
     public $name = '';
 
@@ -54,6 +56,46 @@ class Tools extends Component
         ]);
 
         $this->modal('add-tool')->close();
+    }
+
+    public function editTool(Tool $tool)
+    {
+        $this->editing_tool = $tool;
+
+        $this->name = $tool->name;
+        $this->type = $tool->type;
+        $this->material = $tool->material;
+        $this->diameter = $tool->diameter;
+        $this->flutes = $tool->flutes;
+        $this->insert_shape = $tool->insert_shape;
+        $this->insert_code = $tool->insert_code;
+
+        $this->modal('edit-tool')->show();
+    }
+
+    public function updateTool()
+    {
+        $validated = $this->validate();
+
+        if($validated['diameter'] === '') {
+            $validated['diameter'] = null;
+        }
+
+        if($validated['flutes'] === '') {
+            $validated['flutes'] = null;
+        }
+
+        $this->editing_tool->update([
+            'name' => $validated['name'],
+            'type' => $validated['type'],
+            'material' => $validated['material'],
+            'diameter' => $validated['diameter'],
+            'flutes' => $validated['flutes'],
+            'insert_shape' => $validated['insert_shape'],
+            'insert_code' => $validated['insert_code'],
+        ]);
+
+        $this->modal('edit-tool')->close();
     }
 
     public function deleteTool(Tool $tool)
