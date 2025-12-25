@@ -5,9 +5,12 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Models\Tool;
+use Livewire\WithPagination;
 
 class Tools extends Component
 {
+    use WithPagination;
+
     public ?Tool $editing_tool = null;
 
     #[Validate('required|string|max:255')]
@@ -60,6 +63,9 @@ class Tools extends Component
             status: 'success',
             title: __('Tool added'),
             message: __('Tool has been successfully added.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
@@ -105,6 +111,9 @@ class Tools extends Component
             status: 'success',
             title: __('Tool updated'),
             message: __('Tool has been successfully updated.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
@@ -115,12 +124,15 @@ class Tools extends Component
             status: 'success',
             title: __('Tool deleted'),
             message: __('Tool has been successfully deleted.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
     public function render()
     {
-        $tools = auth()->user()->tools()->get();
+        $tools = auth()->user()->tools()->paginate(5);
         return view('livewire.tools', compact('tools'));
     }
 }

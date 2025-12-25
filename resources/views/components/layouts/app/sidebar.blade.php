@@ -226,7 +226,6 @@
         </flux:header>
 
         {{ $slot }}
-
         @fluxScripts {!! ToastMagic::scripts() !!}
     </body>
 </html>

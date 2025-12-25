@@ -5,9 +5,12 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Material;
 use Livewire\Attributes\Validate;
+use Livewire\WithPagination;
 
 class Materials extends Component
 {
+    use WithPagination;
+
     public ?Material $editing_material = null;
 
     #[Validate('required|string|max:255')]
@@ -51,6 +54,9 @@ class Materials extends Component
             status: 'success',
             title: __('Material added'),
             message: __('Material has been successfully added.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
@@ -90,6 +96,9 @@ class Materials extends Component
             status: 'success',
             title: __('Material updated'),
             message: __('Material has been successfully updated.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
@@ -100,12 +109,15 @@ class Materials extends Component
             status: 'success',
             title: __('Material deleted'),
             message: __('Material has been successfully deleted.'),
+            option: [
+                'showCloseBtn' => true,
+            ]
         );
     }
 
     public function render()
     {
-        $materials = auth()->user()->materials()->get();
+        $materials = auth()->user()->materials()->paginate(5);
         return view('livewire.materials', compact('materials'));
     }
 }

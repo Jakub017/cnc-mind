@@ -3,25 +3,22 @@
         <div
             class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-xl border border-default"
         >
-            <table class="w-full text-sm text-left rtl:text-right text-body">
-                <div
-                    class="px-6 py-5 w-full flex items-start flex-col gap-4 md:flex-row md:justify-between md:items-center"
-                >
-                    <div class="text-left rtl:text-right">
-                        <flux:heading size="lg">{{
-                            __("Materials")
-                        }}</flux:heading>
-                        <flux:text class="mt-2">{{
-                            __("List of materials available in the system.")
-                        }}</flux:text>
-                    </div>
-                    <flux:modal.trigger name="add-material">
-                        <flux:button class="cursor-pointer" variant="primary">{{
-                            __("Add Material")
-                        }}</flux:button>
-                    </flux:modal.trigger>
+            <div
+                class="px-6 py-5 w-full flex items-start flex-col gap-4 md:flex-row md:justify-between md:items-center"
+            >
+                <div class="text-left rtl:text-right">
+                    <flux:heading size="lg">{{ __("Materials") }}</flux:heading>
+                    <flux:text class="mt-1">{{
+                        __("List of materials available in the system.")
+                    }}</flux:text>
                 </div>
-
+                <flux:modal.trigger name="add-material">
+                    <flux:button class="cursor-pointer" variant="primary">{{
+                        __("Add Material")
+                    }}</flux:button>
+                </flux:modal.trigger>
+            </div>
+            <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead
                     class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium"
                 >
@@ -78,6 +75,7 @@
                 </tbody>
             </table>
         </div>
+        {{ $materials->links() }}
 
         <!-- Add material modal -->
         <flux:modal name="add-material" class="w-3/4 md:w-lg">

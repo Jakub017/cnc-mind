@@ -105,5 +105,27 @@
     "HB": "HB",
     "HRC": "HRC",
     "HV": "HV",
-    "Hardness value": "Wartość twardości"
+    "Hardness value": "Wartość twardości",
+
+    "pagination.previous": "Poprzednia",
+    "pagination.next": "Następna",
+    "Showing": "Wyświetlanie",
+    "to": "do",
+    "of": "z",
+    "results": "wyników",
+    "Go to page :page": "Idź do strony :page",
+
+    "Material added": "Dodano materiał",
+    "Material has been successfully added.": "Materiał został pomyślnie dodany.",
+    "Material updated": "Zaktualizowano materiał",
+    "Material has been successfully updated.": "Materiał został pomyślnie zaktualizowany.",
+    "Material deleted": "Usunięto materiał",
+    "Material has been successfully deleted.": "Materiał został pomyślnie usunięty.",
+
+    "Tool added": "Dodano narzędzie",
+    "Tool has been successfully added.": "Narzędzie zostało pomyślnie dodane.",
+    "Tool updated": "Zaktualizowano narzędzie",
+    "Tool has been successfully updated.": "Narzędzie zostało pomyślnie zaktualizowane.",
+    "Tool deleted": "Usunięto narzędzie",
+    "Tool has been successfully deleted.": "Narzędzie zostało pomyślnie usunięte."
 }
