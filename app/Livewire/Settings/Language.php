@@ -19,7 +19,9 @@ class Language extends Component
     {
         session()->put('locale', $locale);
         App::setLocale($locale);
-        return redirect()->back();
+        // return redirect()->back();
+        // return redirect(request()->header('Referer'));
+        return redirect()->to(url()->previous());
     }
 
     public function render()
