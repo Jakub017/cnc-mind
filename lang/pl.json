@@ -127,5 +127,49 @@
     "Tool updated": "Zaktualizowano narzędzie",
     "Tool has been successfully updated.": "Narzędzie zostało pomyślnie zaktualizowane.",
     "Tool deleted": "Usunięto narzędzie",
-    "Tool has been successfully deleted.": "Narzędzie zostało pomyślnie usunięte."
+    "Tool has been successfully deleted.": "Narzędzie zostało pomyślnie usunięte.",
+
+    "Name": "Imię",
+    "Email": "Email",
+    "Save": "Zapisz",
+    "Saved.": "Zapisano.",
+    "Cancel": "Anuluj",
+
+    "Update your name and email address": "Zaktualizuj swoje imię i adres e-mail",
+    "Your email address is unverified.": "Twój adres e-mail nie został zweryfikowany.",
+    "Click here to re-send the verification email.": "Kliknij tutaj, aby ponownie wysłać e-mail weryfikacyjny.",
+    "A new verification link has been sent to your email address.": "Nowy link weryfikacyjny został wysłany na Twój adres e-mail.",
+
+    "Update password": "Zaktualizuj hasło",
+    "Ensure your account is using a long, random password to stay secure": "Upewnij się, że Twoje konto używa długiego, losowego hasła dla bezpieczeństwa",
+    "Current password": "Obecne hasło",
+    "New password": "Nowe hasło",
+    "Confirm Password": "Potwierdź hasło",
+
+    "Manage your profile and account settings": "Zarządzaj swoim profilem i ustawieniami konta",
+
+    "Update the appearance settings for your account": "Zaktualizuj ustawienia wyglądu dla swojego konta",
+    "Light": "Jasny",
+    "Dark": "Ciemny",
+    "System": "Systemowy",
+
+    "Two-Factor Authentication Enabled": "Autoryzacja dwuetapowa włączona",
+    "Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.": "Autoryzacja dwuetapowa jest teraz włączona. Zeskanuj kod QR lub wprowadź klucz konfiguracyjny w aplikacji uwierzytelniającej.",
+    "Close": "Zamknij",
+    "Verify Authentication Code": "Zweryfikuj kod uwierzytelniający",
+    "Enter the 6-digit code from your authenticator app.": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej.",
+    "Continue": "Kontynuuj",
+    "Enable Two-Factor Authentication": "Włącz autoryzację dwuetapową",
+    "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app.": "Aby zakończyć włączanie autoryzacji dwuetapowej, zeskanuj kod QR lub wprowadź klucz konfiguracyjny w aplikacji uwierzytelniającej.",
+
+    "Language": "Język",
+    "Update the language settings for your account": "Zaktualizuj ustawienia językowe dla swojego konta",
+    "Polish": "Polski",
+    "English": "Angielski",
+    "German": "Niemiecki",
+
+    "Delete account": "Usuń konto",
+    "Delete your account and all of its resources": "Usuń swoje konto i wszystkie jego zasoby",
+    "Are you sure you want to delete your account?": "Czy na pewno chcesz usunąć swoje konto?",
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Po usunięciu konta wszystkie jego zasoby i dane zostaną trwale usunięte. Wprowadź hasło, aby potwierdzić chęć trwałego usunięcia konta."
 }

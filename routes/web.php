@@ -4,6 +4,7 @@ use App\Livewire\Tools;
 use App\Livewire\Materials;
 use App\Livewire\Operations;
 use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Language;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
@@ -25,10 +26,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/narzedzia', Tools::class)->name('tools');
     Route::get('/materialy', Materials::class)->name('materials');
     Route::get('/operacje', Operations::class)->name('operations');
+    
 
     Route::get('settings/profile', Profile::class)->name('profile.edit');
     Route::get('settings/password', Password::class)->name('user-password.edit');
     Route::get('settings/appearance', Appearance::class)->name('appearance.edit');
+    Route::get('settings/language', Language::class)->name('language.edit');
 
     Route::get('settings/two-factor', TwoFactor::class)
         ->middleware(
