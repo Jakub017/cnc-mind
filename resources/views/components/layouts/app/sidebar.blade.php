@@ -49,6 +49,13 @@
                         >{{ __("Materials") }}</flux:navlist.item
                     >
                     <flux:navlist.item
+                        icon="document-text"
+                        :href="route('files')"
+                        :current="request()->routeIs('files')"
+                        wire:navigate
+                        >{{ __("Files") }}</flux:navlist.item
+                    >
+                    <flux:navlist.item
                         icon="cog-6-tooth"
                         :href="route('operations')"
                         :current="request()->routeIs('operations')"

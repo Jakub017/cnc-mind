@@ -171,5 +171,17 @@
     "Delete account": "Usuń konto",
     "Delete your account and all of its resources": "Usuń swoje konto i wszystkie jego zasoby",
     "Are you sure you want to delete your account?": "Czy na pewno chcesz usunąć swoje konto?",
-    "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Po usunięciu konta wszystkie jego zasoby i dane zostaną trwale usunięte. Wprowadź hasło, aby potwierdzić chęć trwałego usunięcia konta."
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Po usunięciu konta wszystkie jego zasoby i dane zostaną trwale usunięte. Wprowadź hasło, aby potwierdzić chęć trwałego usunięcia konta.",
+
+    "Files": "Pliki",
+    "List of files available in the system.": "Lista plików dostępnych w systemie.",
+    "Add file": "Dodaj plik",
+    "Add File": "Dodaj plik",
+    "File name": "Nazwa pliku",
+    "File size": "Rozmiar pliku",
+    "Download": "Pobierz",
+    "Upload a file to add it to the system.": "Prześlij plik, aby dodać go do systemu.",
+    "File": "Plik",
+    "File has been successfully added.": "Plik został pomyślnie dodany.",
+    "File has been successfully deleted.": "Plik został pomyślnie usunięty."
 }
