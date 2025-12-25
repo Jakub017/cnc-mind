@@ -5,13 +5,14 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use App\Models\File;
 use Masmerise\Toaster\Toaster;
 use Illuminate\Support\Facades\Storage;
 
 class Files extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     #[Validate('required|file|mimes:pdf,doc,docx|max:51200')]
     public $file;
