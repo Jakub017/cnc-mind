@@ -1,7 +1,7 @@
 <div>
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <div
-            class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-xl border border-default"
+            class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-xl border dark:border-zinc-700"
         >
             <div
                 class="px-6 py-5 w-full flex items-start flex-col gap-4 md:flex-row md:justify-between md:items-center"
@@ -20,7 +20,7 @@
             </div>
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead
-                    class="text-sm text-body bg-neutral-secondary-medium border-b border-t border-default-medium"
+                    class="bg-zinc-100 dark:bg-zinc-700 text-sm text-body border-b border-t dark:border-zinc-700"
                 >
                     <tr>
                         <th scope="col" class="px-6 py-3 font-medium">
@@ -40,7 +40,7 @@
                 </thead>
                 <tbody>
                     @foreach($tools as $tool)
-                    <tr class="bg-neutral-primary-soft border-b border-default">
+                    <tr class="border-b dark:border-zinc-700">
                         <th
                             scope="row"
                             class="px-6 py-4 font-medium text-heading whitespace-nowrap"
@@ -56,13 +56,13 @@
                             <flux:button
                                 wire:click="editTool({{ $tool }})"
                                 icon="pencil-square"
-                                class="cursor-pointer text-blue-500 hover:text-blue-700"
+                                class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400"
                                 >{{ __("Edit") }}</flux:button
                             >
                             <flux:button
                                 wire:click="deleteTool({{ $tool }})"
                                 icon="trash"
-                                class="cursor-pointer text-red-500 hover:text-red-700"
+                                class="cursor-pointer hover:text-red-700 dark:hover:text-red-400"
                                 >{{ __("Delete") }}</flux:button
                             >
                         </td>

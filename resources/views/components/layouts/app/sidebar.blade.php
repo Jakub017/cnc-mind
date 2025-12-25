@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
-        {!! ToastMagic::styles() !!} @include('partials.head')
+        @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar
@@ -226,6 +226,7 @@
         </flux:header>
 
         {{ $slot }}
-        @fluxScripts {!! ToastMagic::scripts() !!}
+        <x-toaster-hub />
+        @fluxScripts
     </body>
 </html>

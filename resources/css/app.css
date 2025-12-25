@@ -1,15 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-@import "flowbite/src/themes/default";
 @import "tailwindcss";
 @import "../../vendor/livewire/flux/dist/flux.css";
-
-@plugin "flowbite/plugin";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
-@source "../node_modules/flowbite";
+@source "../../vendor/masmerise/livewire-toaster/resources/views/**/*.blade.php";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

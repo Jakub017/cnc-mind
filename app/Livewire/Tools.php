@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Models\Tool;
 use Livewire\WithPagination;
+use Masmerise\Toaster\Toaster;
 
 class Tools extends Component
 {
@@ -59,14 +60,7 @@ class Tools extends Component
         ]);
 
         $this->modal('add-tool')->close();
-        $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Tool added'),
-            message: __('Tool has been successfully added.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+        Toaster::success(__('Tool has been successfully added.'));
     }
 
     public function editTool(Tool $tool)
@@ -107,27 +101,13 @@ class Tools extends Component
         ]);
 
         $this->modal('edit-tool')->close();
-        $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Tool updated'),
-            message: __('Tool has been successfully updated.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+        Toaster::success(__('Tool has been successfully updated.'));
     }
 
     public function deleteTool(Tool $tool)
     {
         auth()->user()->tools()->where('id', $tool->id)->delete();
-        $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Tool deleted'),
-            message: __('Tool has been successfully deleted.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+        Toaster::success(__('Tool has been successfully deleted.'));
     }
 
     public function render()

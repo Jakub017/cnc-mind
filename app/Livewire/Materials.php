@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Material;
 use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
+use Masmerise\Toaster\Toaster;
 
 class Materials extends Component
 {
@@ -50,14 +51,7 @@ class Materials extends Component
         ]);
 
          $this->modal('add-material')->close();
-         $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Material added'),
-            message: __('Material has been successfully added.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+         Toaster::success(__('Material has been successfully added.'));
     }
 
     public function editMaterial(Material $material)
@@ -92,27 +86,13 @@ class Materials extends Component
         ]);
 
         $this->modal('edit-material')->close();
-        $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Material updated'),
-            message: __('Material has been successfully updated.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+        Toaster::success(__('Material has been successfully updated.'));
     }
 
     public function deleteMaterial(Material $material)
     {
         auth()->user()->materials()->where('id', $material->id)->delete();
-        $this->dispatch('toastMagic',
-            status: 'success',
-            title: __('Material deleted'),
-            message: __('Material has been successfully deleted.'),
-            option: [
-                'showCloseBtn' => true,
-            ]
-        );
+        Toaster::success(__('Material has been successfully deleted.'));
     }
 
     public function render()
