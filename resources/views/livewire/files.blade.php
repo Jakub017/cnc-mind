@@ -71,7 +71,7 @@
         </div>
         {{ $files->links() }}
 
-        <!-- Add tool modal -->
+        <!-- Add file modal -->
         <flux:modal name="add-file" class="w-3/4 md:w-md">
             <div class="space-y-6">
                 <div>

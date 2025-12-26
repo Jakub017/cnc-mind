@@ -255,7 +255,7 @@
                     <div class="flex">
                         <flux:spacer />
                         <flux:button
-                            class="cursor-pointer"
+                            class="cursor-pointer w-full"
                             type="submit"
                             variant="primary"
                             >{{ __("Add Material") }}</flux:button

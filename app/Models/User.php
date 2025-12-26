@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(File::class);
     }
+
+    public function operations()
+    {
+        return $this->hasMany(Operation::class);
+    }
 }

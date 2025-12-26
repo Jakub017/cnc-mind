@@ -41,8 +41,53 @@ class Tool extends Model
         };
     }
 
+    // Prompt labels (for better understanding)
+
+    public function typePromptLabel()
+    {
+        return match($this->type) {
+            'end_mill' => "Frez",
+            'turning_tool' => "Nóż tokarski",
+            'drill' => "Wiertło",
+            'face_mill' => "Głowica frezarska",
+            'center_drill' => "Nawiertak",
+            default => $this->type,
+        };
+    }
+
+    public function materialPromptLabel()
+    {
+        return match($this->material) {
+            'solid_carbide' => "Węglik spiekany",
+            'hss' => "Stal szybkotnąca",
+            'carbide_insert' => "Węglik (Płytka wymienna)",
+            'pcd' => "PCD (Diament)",
+            'ceramic' => "Ceramika",
+            default => $this->material,
+        };
+    }
+
+    public function insertShapePromptLabel()
+    {
+        return match($this->insert_shape) {
+            'c' => 'C (Romb 80°)',
+            'd' => 'D (Romb 55°)',
+            't' => 'T (Trójkąt)',
+            'w' => 'W (Trigon)',
+            's' => 'S (Kwadrat)',
+            'v' => 'V (Romb 35°)',
+            'r' => 'R (Romb 60°)',
+            default => $this->insert_shape,
+        };
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function operations()
+    {
+        return $this->hasMany(Operation::class);
     }
 }
