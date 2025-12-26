@@ -84,7 +84,7 @@
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">{{
-                        __("Add Operation")
+                        __("Add operation")
                     }}</flux:heading>
                     <flux:text class="mt-2"
                         >{{
@@ -159,7 +159,7 @@
                 <div class="flex w-full flex-col gap-4">
                     <div class="flex w-full gap-4">
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Cutting speed") }}
@@ -170,7 +170,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Spindle speed") }}
@@ -181,7 +181,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Feed per tooth") }}
@@ -195,7 +195,7 @@
 
                     <div class="flex w-full gap-4">
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Feed rate") }}
@@ -206,7 +206,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Depth of cut") }}
@@ -217,7 +217,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Width of cut") }}
@@ -229,9 +229,9 @@
                         </div>
                     </div>
                     <div
-                        class="bg-blue-50 border-blue-100 flex w-full rounded-lg flex-col gap-2 border p-4"
+                        class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4"
                     >
-                        <flux:text>
+                        <flux:text class="dark:text-white">
                             {{ __("Notes") }}
                         </flux:text>
                         <flux:text class="text-zinc-800 dark:text-white">{{
@@ -298,7 +298,7 @@
                 <div class="flex w-full flex-col gap-4">
                     <div class="flex w-full gap-4">
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Cutting speed") }}
@@ -309,7 +309,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Spindle speed") }}
@@ -320,7 +320,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Feed per tooth") }}
@@ -334,7 +334,7 @@
 
                     <div class="flex w-full gap-4">
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Feed rate") }}
@@ -345,7 +345,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Depth of cut") }}
@@ -356,7 +356,7 @@
                             >
                         </div>
                         <div
-                            class="bg-zinc-50 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border p-4"
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
                             <flux:text>
                                 {{ __("Width of cut") }}
@@ -368,9 +368,9 @@
                         </div>
                     </div>
                     <div
-                        class="bg-blue-50 border-blue-100 flex w-full rounded-lg flex-col gap-2 border p-4"
+                        class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4"
                     >
-                        <flux:text>
+                        <flux:text class="dark:text-white">
                             {{ __("Notes") }}
                         </flux:text>
                         <flux:text class="text-zinc-800 dark:text-white">{{

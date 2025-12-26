@@ -115,6 +115,7 @@ class Operations extends Component
         $this->depth_of_cut_ap = $attributes->depth_of_cut_ap;
         $this->width_of_cut_ae = $attributes->width_of_cut_ae;
         $this->notes = $attributes->notes;
+        $this->visible_answer = true;
 
         Operation::create([
             'user_id' => auth()->user()->id,
@@ -130,7 +131,7 @@ class Operations extends Component
             'width_of_cut_ae' => $this->width_of_cut_ae,
             'notes' => $this->notes,
         ]);
-        $this->visibleAnswer = true;
+        Toaster::success(__('Operation has been successfully added.'));
     }
 
     public function seeOperation(Operation $operation)
