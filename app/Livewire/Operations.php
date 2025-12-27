@@ -3,11 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Gemini\Data\GenerationConfig;
-use Gemini\Data\Schema;
-use Gemini\Enums\DataType;
-use Gemini\Enums\ResponseMimeType;
-use Gemini\Laravel\Facades\Gemini;
+use OpenAI\Laravel\Facades\OpenAI;
 use App\Models\Tool;
 use App\Models\Material;
 use Livewire\Attributes\Validate;
@@ -37,85 +33,112 @@ class Operations extends Component
     public $feed_rate_vf = null;
     public $depth_of_cut_ap = null;
     public $width_of_cut_ae = null;
+    public $g_code = '';
+    public $want_g_code = false;
     public $notes = '';
 
     public function addOperation()
     {
+        set_time_limit(120);
         $validated = $this->validate();
 
         $tool = Tool::find($validated['tool_id']);
         $material = Material::find($validated['material_id']);
 
-        $prompt = "Jesteś ekspertem technologii CNC z 20-letnim doświadczeniem. Twoim priorytetem jest trwałość narzędzia i stabilność procesu. żOblicz BEZPIECZNE i REALNE parametry skrawania.
-        DANE OPERACJI:
-        - Opis/cel: {$validated['description']}
-
+        $prompt = "
+        Jesteś ekspertem technologii CNC. Twoim zadaniem jest obliczenie parametrów skrawania i wygenerowanie G-kodu.
+        
+        DANE WEJŚCIOWE:
+        OPIS/CEL OPERACJI: {$validated['description']}
         NARZĘDZIE:
         - Typ: {$tool->typePromptLabel()}
-        - Materiał narzędzia: {$tool->materialPromptLabel()}\n";
+        - Materiał: {$tool->materialPromptLabel()}
+        - Średnica (D): " . ($tool->diameter ?? 'nieznana') . " mm
+        - Liczba ostrzy (z): " . ($tool->flutes ?? '1') . "
+        " . ($tool->insert_shape ? "- Kształt płytki: {$tool->insertShapePromptLabel()}\n" : "") . "
+        " . ($tool->insert_code ? "- Kod płytki: {$tool->insert_code}\n" : "") . "
 
-        if($tool->diameter) {
-            $prompt .= "- Średnica narzędzia: {$tool->diameter} mm \n";
-        };
-        if($tool->flutes) {
-            $prompt .= "- Liczba ostrzy narzędzia (z): {$tool->flutes} \n";
-        };
-        if($tool->insert_shape) {
-            $prompt .= "- Kształt płytki narzędzia: {$tool->insertShapePromptLabel()} \n";
-        };
-        if($tool->insert_code) {
-            $prompt .= "- Kod płytki: {$tool->insert_code} \n";
-        };
+        MATERIAŁ OBRABIANY:
+        - Kategoria: {$material->categoryPromptLabel()}
+        - Podkategoria: {$material->subCategoryPromptLabel()}
+        - Twardość: {$material->hardness_value} {$material->hardness_unit}
+        " . ($material->notes ? "- Uwagi: {$material->notes}\n" : "") . "
 
-        $prompt .= "\n\n";
+        ZASADY OBLICZEŃ (BEZWZGLĘDNE):
+        1. Oblicz obroty n: n = (vc * 1000) / (π * D).
+        2. Oblicz posuw minutowy vf: vf = n * fz * z.
+        3. Wszystkie wyniki muszą być spójne matematycznie. Jeśli vc=30 i D=10, n MUSI wynosić ok. 955.
+        4. Dostosuj vc i fz do materiału: dla stali nierdzewnej i VHM celuj w bezpieczne, ale wydajne parametry.
 
-        $prompt .= "MATERIAŁ OBRABIANY:\n";
-        $prompt .= "- Kategoria: {$material->categoryPromptLabel()}\n";
-        if($material->sub_category) {
-            $prompt .= "- Podkategoria: {$material->subCategoryPromptLabel()}\n";
-        };
-        if($material->hardness_value) {
-            $prompt .= "- Twardość: {$material->hardness_value} {$material->hardness_unit}\n";
-        };
-        if($material->notes) {
-            $prompt .= "- Dodatkowe uwagi o materiale: {$material->notes}\n";
-        };
+        ZASADY G-CODE (ISO Standard):
+        1. Zawsze dodaj S (obroty) i M3 (start wrzeciona).
+        2. Zawsze używaj G43 H (kompensacja długości).
+        3. Nigdy nie wjeżdżaj w materiał szybkim ruchem G0 Z-. Użyj bezpiecznego dojazdu G1 z posuwem (wejście rampą lub powolne wejście w osi Z).
+        4. Jeśli w opisie jest 'chłodzenie', dodaj M8.
+        5. Zakończ program bezpiecznym odjazdem Z i M30.
+        ";
 
-        // dd($prompt); 
+        if($this->want_g_code) {
+            $prompt .= "\nWygeneruj kompletny, bezpieczny i zgodny z wygenerowanymi przez ciebie parametrami G-code dla powyższej operacji.";
+        }
 
-        $result = Gemini::generativeModel(model: 'gemini-2.5-flash-lite')
-            ->withGenerationConfig(
-                generationConfig: new GenerationConfig(
-                    responseMimeType: ResponseMimeType::APPLICATION_JSON,
-                    responseSchema: new Schema(
-                        type: DataType::ARRAY,
-                        items: new Schema(
-                            type: DataType::OBJECT,
-                            properties: [
-                                'cutting_speed_vc' => new Schema(type: DataType::NUMBER),
-                                'spindle_speed_n' => new Schema(type: DataType::INTEGER),
-                                'feed_per_tooth_fz' => new Schema(type: DataType::NUMBER),
-                                'feed_rate_vf' => new Schema(type: DataType::INTEGER),
-                                'depth_of_cut_ap' => new Schema(type: DataType::NUMBER),
-                                'width_of_cut_ae' => new Schema(type: DataType::NUMBER),
-                                'notes' => new Schema(type: DataType::STRING),
+        $properties = [
+        'cutting_speed_vc' => ['type' => 'number'],
+        'feed_per_tooth_fz' => ['type' => 'number'],
+        'depth_of_cut_ap' => ['type' => 'number'],
+        'width_of_cut_ae' => ['type' => 'number'],
+        'notes' => ['type' => 'string'],
+        ];
 
-                            ],
-                            required: ['cutting_speed_vc', 'spindle_speed_n', 'feed_per_tooth_fz', 'feed_rate_vf', 'depth_of_cut_ap', 'width_of_cut_ae', 'notes'],
-                        )
-                    )
-        )
-    )
-    ->generateContent($prompt);
-        $attributes = $result->json()[0];
-        $this->cutting_speed_vc = $attributes->cutting_speed_vc;
-        $this->spindle_speed_n = $attributes->spindle_speed_n;
-        $this->feed_per_tooth_fz = $attributes->feed_per_tooth_fz;
-        $this->feed_rate_vf = $attributes->feed_rate_vf;
-        $this->depth_of_cut_ap = $attributes->depth_of_cut_ap;
-        $this->width_of_cut_ae = $attributes->width_of_cut_ae;
-        $this->notes = $attributes->notes;
-        $this->visible_answer = true;
+        $required = [
+            'cutting_speed_vc', 'feed_per_tooth_fz', 'depth_of_cut_ap', 'width_of_cut_ae', 'notes'
+        ];
+
+        if ($this->want_g_code) {
+            $properties['g_code'] = ['type' => 'string'];
+            $required[] = 'g_code';
+        }
+
+        $response = OpenAI::chat()->create([
+            'model' => 'gpt-4o',
+            'messages' => [
+                ['role' => 'system', 
+                'content' => "Jesteś precyzyjnym kalkulatorem CNC i programistą CAM. 
+                Twoim priorytetem jest: 
+                1. Spójność matematyczna (vf = n * fz * z). 
+                2. Bezpieczeństwo narzędzia (brak kolizji, odpowiednie wejście w materiał). 
+                3. Krótka (maksymalnie 2 zdania) techniczna notatka w języku " . app()->getLocale() . "."],
+                ['role' => 'user', 'content' => $prompt]
+            ],
+            'response_format' => [
+                'type' => 'json_schema',
+                'json_schema' => [
+                    'name' => 'cnc_parameters',
+                    'strict' => true,
+                    'schema' => [
+                        'type' => 'object',
+                        'properties' => $properties,
+                        'required' => $required,
+                        'additionalProperties' => false
+                    ]
+                ],
+            ],
+        ]);
+
+        $jsonString = $response['choices'][0]['message']['content'];
+
+        $attributes = json_decode($jsonString, true);
+
+        $this->cutting_speed_vc = $attributes['cutting_speed_vc'];
+        $this->spindle_speed_n = round(($attributes['cutting_speed_vc'] * 1000) / (M_PI * $tool->diameter), 0);
+        $this->feed_per_tooth_fz = $attributes['feed_per_tooth_fz'];
+        $this->feed_rate_vf = round($attributes['feed_per_tooth_fz'] * $tool->flutes * $this->spindle_speed_n, 0);
+        $this->depth_of_cut_ap = $attributes['depth_of_cut_ap'];
+        $this->width_of_cut_ae = $attributes['width_of_cut_ae'];
+        $this->g_code = $attributes['g_code'] ?? '';
+        $this->notes = $attributes['notes'];
+
+        $this->visible_answer = true;   
 
         Operation::create([
             'user_id' => auth()->user()->id,
@@ -129,8 +152,10 @@ class Operations extends Component
             'feed_rate_vf' => $this->feed_rate_vf,
             'depth_of_cut_ap' => $this->depth_of_cut_ap,
             'width_of_cut_ae' => $this->width_of_cut_ae,
+            'g_code' => $this->g_code,
             'notes' => $this->notes,
         ]);
+
         Toaster::success(__('Operation has been successfully added.'));
     }
 
@@ -148,6 +173,7 @@ class Operations extends Component
         $this->feed_rate_vf = $operation->feed_rate_vf;
         $this->depth_of_cut_ap = $operation->depth_of_cut_ap;
         $this->width_of_cut_ae = $operation->width_of_cut_ae;
+        $this->g_code = $operation->g_code;
         $this->notes = $operation->notes;
 
         $this->modal('see-operation')->show();

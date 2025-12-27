@@ -18,6 +18,7 @@ class Operation extends Model
         'feed_rate_vf',
         'depth_of_cut_ap',
         'width_of_cut_ae',
+        'g_code',
         'notes',
     ];
 

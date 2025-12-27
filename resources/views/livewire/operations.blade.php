@@ -143,8 +143,13 @@
                         </div>
                     </div>
                     @if($visible_answer == false)
-                    <div class="flex">
-                        <flux:spacer />
+                    <div class="flex flex-col gap-4">
+                        <flux:field variant="inline">
+                            <flux:checkbox wire:model="want_g_code" />
+                            <flux:label>{{
+                                __("Generate also G code for this operation")
+                            }}</flux:label>
+                        </flux:field>
                         <flux:button
                             class="cursor-pointer w-full"
                             type="submit"
@@ -228,6 +233,18 @@
                             >
                         </div>
                     </div>
+                    @if($g_code != '')
+                    <div
+                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                    >
+                        <flux:text class="dark:text-white">
+                            {{ __("G code") }}
+                        </flux:text>
+                        <flux:text class="text-zinc-800 dark:text-white">{{
+                            $g_code
+                        }}</flux:text>
+                    </div>
+                    @endif
                     <div
                         class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4"
                     >
@@ -367,6 +384,18 @@
                             >
                         </div>
                     </div>
+                    @if($g_code != '')
+                    <div
+                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                    >
+                        <flux:text class="dark:text-white">
+                            {{ __("G-code") }}
+                        </flux:text>
+                        <flux:text class="text-zinc-800 dark:text-white">{{
+                            $g_code
+                        }}</flux:text>
+                    </div>
+                    @endif
                     <div
                         class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4"
                     >
