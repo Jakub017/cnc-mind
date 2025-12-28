@@ -24,6 +24,12 @@ class FilesController extends Controller
     {
         return Pdf::view('pdfs.operation', ['operation' => $operation])
             ->format('a4')
+            ->withBrowsershot(function ($browsershot) {
+                $browsershot->setNodeBinary(config('services.browsershot.node_path'))
+                    ->setNpmBinary(config('services.browsershot.npm_path'))
+                    ->noSandbox()
+                    ->addCustomFlags(['--disable-setuid-sandbox']);
+            })
             ->name("{$operation->name}.pdf");
     }
 }

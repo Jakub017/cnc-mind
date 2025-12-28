@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'browsershot' => [
+        'node_path' => env('NODE_BINARY_PATH', '/usr/local/bin/node'),
+        'npm_path' => env('NPM_BINARY_PATH', '/usr/local/bin/npm'),
+    ],
+
 ];
