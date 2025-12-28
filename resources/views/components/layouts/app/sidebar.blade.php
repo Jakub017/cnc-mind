@@ -31,7 +31,7 @@
                 </flux:navlist.group>
 
                 <flux:navlist.group
-                    :heading="__('CNC Parameters')"
+                    :heading="__('Technological Data')"
                     class="grid mt-4"
                 >
                     <flux:navlist.item

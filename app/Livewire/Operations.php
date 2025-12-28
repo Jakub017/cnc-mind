@@ -105,9 +105,10 @@ class Operations extends Component
                 ['role' => 'system', 
                 'content' => "Jesteś precyzyjnym kalkulatorem CNC i programistą CAM. 
                 Twoim priorytetem jest: 
-                1. Spójność matematyczna (vf = n * fz * z). 
+                1. Spójność matematyczna. 
                 2. Bezpieczeństwo narzędzia (brak kolizji, odpowiednie wejście w materiał). 
-                3. Krótka (maksymalnie 2 zdania) techniczna notatka w języku " . app()->getLocale() . "."],
+                3. Krótka (maksymalnie 2 zdania) techniczna notatka w języku " . app()->getLocale() . ".
+                4. W notatce zapisz tylko ogólne podsumowanie, nie pisz żadnych liczb."],
                 ['role' => 'user', 'content' => $prompt]
             ],
             'response_format' => [
@@ -178,6 +179,47 @@ class Operations extends Component
 
         $this->modal('see-operation')->show();
     }
+
+    public function editOperation(Operation $operation)
+    {
+        $this->current_operation = $operation;
+       
+        $this->name = $operation->name;
+        $this->description = $operation->description;
+        $this->tool_id = $operation->tool_id;
+        $this->material_id = $operation->material_id;
+        $this->cutting_speed_vc = $operation->cutting_speed_vc;
+        $this->spindle_speed_n = $operation->spindle_speed_n;
+        $this->feed_per_tooth_fz = $operation->feed_per_tooth_fz;
+        $this->feed_rate_vf = $operation->feed_rate_vf;
+        $this->depth_of_cut_ap = $operation->depth_of_cut_ap;
+        $this->width_of_cut_ae = $operation->width_of_cut_ae;
+        $this->g_code = $operation->g_code;
+        $this->notes = $operation->notes;
+
+        $this->modal('edit-operation')->show();
+    }
+
+    public function updateOperation()
+    {
+        
+       $this->current_operation->update([
+            'name' => $this->name,
+            'description' => $this->description,
+            'tool_id' => $this->tool_id,
+            'material_id' => $this->material_id,
+            'cutting_speed_vc' => $this->cutting_speed_vc,
+            'spindle_speed_n' => $this->spindle_speed_n,
+            'feed_per_tooth_fz' => $this->feed_per_tooth_fz,
+            'feed_rate_vf' => $this->feed_rate_vf,
+            'depth_of_cut_ap' => $this->depth_of_cut_ap,
+            'width_of_cut_ae' => $this->width_of_cut_ae,
+            'g_code' => $this->g_code ?? '',
+            'notes' => $this->notes,
+        ]);
+        $this->modal('edit-operation')->close();
+        Toaster::success(__('Operation has been successfully updated.'));
+    } 
 
     public function deleteOperation(Operation $operation)
     {

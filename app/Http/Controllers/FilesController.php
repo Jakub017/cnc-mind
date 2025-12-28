@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelPdf\Facades\Pdf;
 use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Operation;
 
 class FilesController extends Controller
 {
@@ -16,5 +18,12 @@ class FilesController extends Controller
         } else {
             abort(403);
         }
+    }
+
+    public function downloadOperationPdf(Operation $operation)
+    {
+        return Pdf::view('pdfs.operation', ['operation' => $operation])
+            ->format('a4')
+            ->name("{$operation->name}.pdf");
     }
 }

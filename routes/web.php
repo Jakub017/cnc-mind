@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(FilesController::class)->group(function() {
         Route::get('/files/download/{file}', 'download')->name('file.download');
+        Route::get('/operations/download/{operation}', 'downloadOperationPdf')->name('operation.download');
     });
     
 
