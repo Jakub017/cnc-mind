@@ -162,35 +162,21 @@
         <div
             class="text-white relative rounded-lg h-full w-full bg-zinc-900 flex flex-col items-start justify-end p-16"
             style="
-                background-image: url('https://images.unsplash.com/photo-1528155124528-06c125d81e89?q=80&w=989&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+                background-image: url('{{ asset('img/auth.jpg') }}');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
             "
         >
-            <div class="flex gap-2 mb-4">
-                <flux:icon.star variant="solid" />
-                <flux:icon.star variant="solid" />
-                <flux:icon.star variant="solid" />
-                <flux:icon.star variant="solid" />
-                <flux:icon.star variant="solid" />
-            </div>
-
-            <div class="mb-6 italic font-base text-2xl xl:text-4xl">
-                Flux has enabled me to design, build, and deliver apps faster
-                than ever before.
-            </div>
-
-            <div class="flex gap-4">
-                <flux:avatar
-                    src="https://fluxui.dev/img/demo/caleb.png"
-                    size="xl"
-                />
-
-                <div class="flex flex-col justify-center font-medium">
-                    <div class="text-lg">Caleb Porzio</div>
-                    <div class="text-zinc-300">Creator of Livewire</div>
-                </div>
+            <div
+                class="w-full flex flex-col bg-zinc-900/60 backdrop-blur-sm p-8 rounded-xl border border-white/10 shadow-2xl"
+            >
+                <flux:heading class="!text-white mb-0 !text-3xl font-bold">{{
+                    __("Welcome to CNC Mind")
+                }}</flux:heading>
+                <flux:subheading class="!text-zinc-300 !text-lg">{{
+                    __("Your intelligent partner for precision machining.")
+                }}</flux:subheading>
             </div>
         </div>
     </div>
