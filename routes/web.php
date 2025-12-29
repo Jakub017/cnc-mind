@@ -1,6 +1,7 @@
 <?php
 
-
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\GithubController;
 use App\Http\Controllers\FilesController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Settings\Appearance;
@@ -18,11 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('/dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+
+Route::controller(GoogleController::class)->group(function() {
+    Route::get('/auth/google/redirect', 'redirect')->name('google.auth.redirect');
+    Route::get('/auth/google/callback', 'callback')->name('google.auth.callback');
+});
+
+Route::controller(GithubController::class)->group(function() {
+    Route::get('/auth/github/redirect', 'redirect')->name('github.auth.redirect');
+    Route::get('/auth/github/callback', 'callback')->name('github.auth.callback');
+});
 
 Route::middleware(['auth'])->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::redirect('settings', 'settings/profile');
 
     // My routes
