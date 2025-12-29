@@ -23,6 +23,8 @@ class LanguageSwitcher extends Component
             'pl' => ['name' => __('Polish'), 'flag' => 'pl'],
             'en' => ['name' => __('English'), 'flag' => 'gb'],
             'de' => ['name' => __('German'), 'flag' => 'de'],
+            'it' => ['name' => __('Italian'), 'flag' => 'it'],
+            'fr' => ['name' => __('French'), 'flag' => 'fr'],
             default => ['name' => $this->locale, 'flag' => $this->locale],
         };
     }

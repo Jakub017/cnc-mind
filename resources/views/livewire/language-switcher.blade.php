@@ -1,4 +1,4 @@
-<flux:dropdown >
+<flux:dropdown>
     <flux:button icon:trailing="chevron-down" class="cursor-pointer">
         <span
             class="fi fi-{{ $this->languageLabel['flag'] }} inline-block mr-2"
@@ -23,6 +23,18 @@
             class="flex items-center gap-2 cursor-pointer"
             ><span class="fi fi-de"></span>
             {{ __("German") }}</flux:navmenu.item
+        >
+        <flux:navmenu.item
+            wire:click="setLocale('it')"
+            class="flex items-center gap-2 cursor-pointer"
+            ><span class="fi fi-it"></span>
+            {{ __("Italian") }}</flux:navmenu.item
+        >
+        <flux:navmenu.item
+            wire:click="setLocale('fr')"
+            class="flex items-center gap-2 cursor-pointer"
+            ><span class="fi fi-fr"></span>
+            {{ __("French") }}</flux:navmenu.item
         >
     </flux:navmenu>
 </flux:dropdown>
