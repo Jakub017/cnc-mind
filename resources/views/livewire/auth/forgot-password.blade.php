@@ -1,5 +1,5 @@
 <x-layouts.auth>
-    <div class="flex-1 flex justify-center items-center">
+    <div class="flex-1 flex justify-center items-center p-4">
         <div class="w-full max-w-md space-y-6">
             <div class="flex justify-center opacity-50">
                 <a href="/" class="group flex items-center gap-3">
