@@ -201,6 +201,7 @@
                                 {{ __("rpm") }}</flux:text
                             >
                         </div>
+                        @if($feed_per_tooth_fz != null)
                         <div
                             class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
@@ -212,6 +213,19 @@
                                 {{ __("mm/tooth") }}</flux:text
                             >
                         </div>
+                        @endif @if($feed_per_revolution_fn != null)
+                        <div
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                        >
+                            <flux:heading>
+                                {{ __("Feed per revolution") }}
+                            </flux:heading>
+                            <flux:text
+                                >{{ $feed_per_revolution_fn }}
+                                {{ __("mm/rev") }}</flux:text
+                            >
+                        </div>
+                        @endif
                     </div>
 
                     <div class="flex w-full gap-4">
@@ -237,6 +251,7 @@
                                 {{ __("mm") }}</flux:text
                             >
                         </div>
+                        @if($width_of_cut_ae != null)
                         <div
                             class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
@@ -248,6 +263,19 @@
                                 {{ __("mm") }}</flux:text
                             >
                         </div>
+                        @endif @if($theoretical_roughness_ra != null)
+                        <div
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                        >
+                            <flux:heading>
+                                {{ __("Theoretical roughness") }}
+                            </flux:heading>
+                            <flux:text
+                                >{{ $theoretical_roughness_ra }}
+                                {{ __("μm") }}</flux:text
+                            >
+                        </div>
+                        @endif
                     </div>
                     @if($g_code != '')
                     <div
@@ -518,6 +546,7 @@
                                 {{ __("rpm") }}</flux:text
                             >
                         </div>
+                        @if($feed_per_tooth_fz != null)
                         <div
                             class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
@@ -529,6 +558,19 @@
                                 {{ __("mm/tooth") }}</flux:text
                             >
                         </div>
+                        @endif @if($feed_per_revolution_fn != null)
+                        <div
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                        >
+                            <flux:heading>
+                                {{ __("Feed per revolution") }}
+                            </flux:heading>
+                            <flux:text
+                                >{{ $feed_per_revolution_fn }}
+                                {{ __("mm/rev") }}</flux:text
+                            >
+                        </div>
+                        @endif
                     </div>
 
                     <div class="flex w-full flex-col md:flex-row gap-4">
@@ -554,6 +596,7 @@
                                 {{ __("mm") }}</flux:text
                             >
                         </div>
+                        @if($width_of_cut_ae != null)
                         <div
                             class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
                         >
@@ -565,6 +608,19 @@
                                 {{ __("mm") }}</flux:text
                             >
                         </div>
+                        @endif @if($theoretical_roughness_ra != null)
+                        <div
+                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4"
+                        >
+                            <flux:heading>
+                                {{ __("Theoretical roughness") }}
+                            </flux:heading>
+                            <flux:text
+                                >{{ $theoretical_roughness_ra }}
+                                {{ __("μm") }}</flux:text
+                            >
+                        </div>
+                        @endif
                     </div>
                     @if($g_code != '')
                     <div

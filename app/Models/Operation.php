@@ -15,9 +15,11 @@ class Operation extends Model
         'cutting_speed_vc',
         'spindle_speed_n',
         'feed_per_tooth_fz',
+        'feed_per_revolution_fn',
         'feed_rate_vf',
         'depth_of_cut_ap',
         'width_of_cut_ae',
+        'theoretical_roughness_ra',
         'g_code',
         'notes',
     ];

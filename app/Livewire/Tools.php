@@ -45,7 +45,7 @@ class Tools extends Component
         }
 
         if($validated['flutes'] === '') {
-            $validated['flutes'] = null;
+            $validated['flutes'] = 1;
         }
 
         Tool::create([
