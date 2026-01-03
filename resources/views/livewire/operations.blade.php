@@ -315,7 +315,7 @@
         </flux:modal>
 
         <!-- Edit operation modal -->
-        <flux:modal name="edit-operation" class="w-3/4 md:w-lg" flyout>
+        <flux:modal name="edit-operation" class="w-3/4 md:w-xl" flyout>
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">{{
@@ -401,7 +401,9 @@
                             />
                         </div>
                     </div>
+
                     <div class="w-full flex flex-col md:flex-row gap-4">
+                        @if($feed_per_tooth_fz != null)
                         <div class="w-full md:w-1/2">
                             <flux:input
                                 wire:model="feed_per_tooth_fz"
@@ -412,6 +414,20 @@
                                 required
                             />
                         </div>
+                        @endif @if($feed_per_revolution_fn != null)
+                        <div class="w-full md:w-1/2">
+                            <flux:input
+                                wire:model="feed_per_revolution_fn"
+                                label="{{ __('Feed per revolution') }} [{{
+                                    __('mm/rev')
+                                }}]"
+                                placeholder="{{
+                                    __('Enter feed per revolution')
+                                }}"
+                                required
+                            />
+                        </div>
+                        @endif
                         <div class="w-full md:w-1/2">
                             <flux:input
                                 wire:model="feed_rate_vf"
@@ -434,6 +450,7 @@
                                 required
                             />
                         </div>
+                        @if($width_of_cut_ae != null)
                         <div class="w-full md:w-1/2">
                             <flux:input
                                 wire:model="width_of_cut_ae"
@@ -444,6 +461,20 @@
                                 required
                             />
                         </div>
+                        @endif @if($theoretical_roughness_ra != null)
+                        <div class="w-full md:w-1/2">
+                            <flux:input
+                                wire:model="theoretical_roughness_ra"
+                                label="{{ __('Theoretical roughness') }} [{{
+                                    __('μm')
+                                }}]"
+                                placeholder="{{
+                                    __('Enter theoretical roughness')
+                                }}"
+                                required
+                            />
+                        </div>
+                        @endif
                     </div>
                     @if($g_code != '')
                     <flux:textarea
@@ -471,7 +502,7 @@
         </flux:modal>
 
         <!-- See operation modal -->
-        <flux:modal name="see-operation" class="w-3/4 md:w-lg" flyout>
+        <flux:modal name="see-operation" class="w-3/4 md:w-xl" flyout>
             <div class="space-y-6">
                 <form class="w-full flex flex-col gap-4">
                     <flux:input
