@@ -25,16 +25,22 @@
             {{ __("German") }}</flux:navmenu.item
         >
         <flux:navmenu.item
-            wire:click="setLocale('it')"
+            wire:click="setLocale('es')"
             class="flex items-center gap-2 cursor-pointer"
-            ><span class="fi fi-it"></span>
-            {{ __("Italian") }}</flux:navmenu.item
+            ><span class="fi fi-es"></span>
+            {{ __("Spanish") }}</flux:navmenu.item
         >
         <flux:navmenu.item
             wire:click="setLocale('fr')"
             class="flex items-center gap-2 cursor-pointer"
             ><span class="fi fi-fr"></span>
             {{ __("French") }}</flux:navmenu.item
+        >
+        <flux:navmenu.item
+            wire:click="setLocale('it')"
+            class="flex items-center gap-2 cursor-pointer"
+            ><span class="fi fi-it"></span>
+            {{ __("Italian") }}</flux:navmenu.item
         >
     </flux:navmenu>
 </flux:dropdown>
