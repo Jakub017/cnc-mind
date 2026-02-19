@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Validate;
 use App\Models\Tool;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
 
@@ -35,16 +35,15 @@ class Tools extends Component
     #[Validate('nullable|string|max:255')]
     public $insert_code = '';
 
-
     public function addTool()
     {
         $validated = $this->validate();
 
-        if($validated['diameter'] === '') {
+        if ($validated['diameter'] === '') {
             $validated['diameter'] = null;
         }
 
-        if($validated['flutes'] === '') {
+        if ($validated['flutes'] === '') {
             $validated['flutes'] = 1;
         }
 
@@ -82,11 +81,11 @@ class Tools extends Component
     {
         $validated = $this->validate();
 
-        if($validated['diameter'] === '') {
+        if ($validated['diameter'] === '') {
             $validated['diameter'] = null;
         }
 
-        if($validated['flutes'] === '') {
+        if ($validated['flutes'] === '') {
             $validated['flutes'] = null;
         }
 
@@ -113,6 +112,7 @@ class Tools extends Component
     public function render()
     {
         $tools = auth()->user()->tools()->paginate(5);
+
         return view('livewire.tools', compact('tools'));
     }
 }

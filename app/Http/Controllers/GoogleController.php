@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Laravel\Socialite\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Socialite;
 
 class GoogleController extends Controller
 {
@@ -27,7 +26,7 @@ class GoogleController extends Controller
                 'email' => $googleUser->email,
                 'google_token' => $googleUser->token,
                 'google_refresh_token' => $googleUser->refreshToken,
-                'password' =>  bcrypt(Str::random(16)),
+                'password' => bcrypt(Str::random(16)),
             ]);
 
             Auth::login($user);
@@ -35,8 +34,7 @@ class GoogleController extends Controller
             return redirect()->route('dashboard');
         } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {
             return redirect()->route('login')->with('error', __('This email address is already associated with another account.'));
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->route('login')->with('error', __('Something went wrong. Please try again later.'));
         }
     }

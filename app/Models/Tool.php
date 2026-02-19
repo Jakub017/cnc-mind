@@ -19,7 +19,7 @@ class Tool extends Model
 
     public function typeLabel()
     {
-        return match($this->type) {
+        return match ($this->type) {
             'end_mill' => __('End mill'),
             'turning_tool' => __('Turning tool'),
             'drill' => __('Drill'),
@@ -31,7 +31,7 @@ class Tool extends Model
 
     public function materialLabel()
     {
-        return match($this->material) {
+        return match ($this->material) {
             'solid_carbide' => __('Solid Carbide'),
             'hss' => __('HSS'),
             'carbide_insert' => __('Carbide (Insert)'),
@@ -45,31 +45,31 @@ class Tool extends Model
 
     public function typePromptLabel()
     {
-        return match($this->type) {
-            'end_mill' => "Frez",
-            'turning_tool' => "Nóż tokarski",
-            'drill' => "Wiertło",
-            'face_mill' => "Głowica frezarska",
-            'center_drill' => "Nawiertak",
+        return match ($this->type) {
+            'end_mill' => 'Frez',
+            'turning_tool' => 'Nóż tokarski',
+            'drill' => 'Wiertło',
+            'face_mill' => 'Głowica frezarska',
+            'center_drill' => 'Nawiertak',
             default => $this->type,
         };
     }
 
     public function materialPromptLabel()
     {
-        return match($this->material) {
-            'solid_carbide' => "Węglik spiekany",
-            'hss' => "Stal szybkotnąca",
-            'carbide_insert' => "Węglik (Płytka wymienna)",
-            'pcd' => "PCD (Diament)",
-            'ceramic' => "Ceramika",
+        return match ($this->material) {
+            'solid_carbide' => 'Węglik spiekany',
+            'hss' => 'Stal szybkotnąca',
+            'carbide_insert' => 'Węglik (Płytka wymienna)',
+            'pcd' => 'PCD (Diament)',
+            'ceramic' => 'Ceramika',
             default => $this->material,
         };
     }
 
     public function insertShapePromptLabel()
     {
-        return match($this->insert_shape) {
+        return match ($this->insert_shape) {
             'c' => 'C (Romb 80°)',
             'd' => 'D (Romb 55°)',
             't' => 'T (Trójkąt)',

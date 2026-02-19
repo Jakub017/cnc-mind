@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->enum('hardness_unit', ['hb', 'hrc', 'hv'])->default('hb');
             $table->decimal('hardness_value', 8, 2);
-            
+
             $table->text('notes')->nullable();
             $table->timestamps();
         });

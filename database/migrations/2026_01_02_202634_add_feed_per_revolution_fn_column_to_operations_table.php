@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('operations', function (Blueprint $table) {
-         $table->decimal('feed_per_revolution_fn', 8, 4)->nullable()->after('feed_per_tooth_fz');
+            $table->decimal('feed_per_revolution_fn', 8, 4)->nullable()->after('feed_per_tooth_fz');
         });
     }
 

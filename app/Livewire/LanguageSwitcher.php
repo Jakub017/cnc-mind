@@ -19,7 +19,7 @@ class LanguageSwitcher extends Component
     #[Computed]
     public function languageLabel()
     {
-        return match($this->locale) {
+        return match ($this->locale) {
             'pl' => ['name' => __('Polish'), 'flag' => 'pl'],
             'en' => ['name' => __('English'), 'flag' => 'gb'],
             'de' => ['name' => __('German'), 'flag' => 'de'],
@@ -34,6 +34,7 @@ class LanguageSwitcher extends Component
     {
         session()->put('locale', $locale);
         App::setLocale($locale);
+
         return redirect()->to(url()->previous());
     }
 

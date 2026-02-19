@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
+use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use App\Models\File;
 use Masmerise\Toaster\Toaster;
-use Illuminate\Support\Facades\Storage;
 
 class Files extends Component
 {
@@ -18,7 +18,7 @@ class Files extends Component
     public $file;
 
     public function updatedFile()
-    {   
+    {
         $this->validate();
 
         File::create([
@@ -43,6 +43,7 @@ class Files extends Component
     public function render()
     {
         $files = auth()->user()->files()->paginate(5);
+
         return view('livewire.files', compact('files'));
     }
 }

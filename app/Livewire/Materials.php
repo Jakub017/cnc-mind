@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Material;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
 
@@ -36,7 +36,7 @@ class Materials extends Component
     {
         $validated = $this->validate();
 
-        if($validated['hardness_value'] === '') {
+        if ($validated['hardness_value'] === '') {
             $validated['hardness_value'] = null;
         }
 
@@ -50,8 +50,8 @@ class Materials extends Component
             'notes' => $validated['notes'],
         ]);
 
-         $this->modal('add-material')->close();
-         Toaster::success(__('Material has been successfully added.'));
+        $this->modal('add-material')->close();
+        Toaster::success(__('Material has been successfully added.'));
     }
 
     public function editMaterial(Material $material)
@@ -72,7 +72,7 @@ class Materials extends Component
     {
         $validated = $this->validate();
 
-        if($validated['hardness_value'] === '') {
+        if ($validated['hardness_value'] === '') {
             $validated['hardness_value'] = null;
         }
 
@@ -98,6 +98,7 @@ class Materials extends Component
     public function render()
     {
         $materials = auth()->user()->materials()->paginate(5);
+
         return view('livewire.materials', compact('materials'));
     }
 }
