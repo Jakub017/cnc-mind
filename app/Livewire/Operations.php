@@ -9,10 +9,13 @@ use App\Models\Operation;
 use App\Models\Tool;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
 
 class Operations extends Component
 {
+    use WithPagination;
+    
     public $visible_answer = false;
 
     public $current_operation;
