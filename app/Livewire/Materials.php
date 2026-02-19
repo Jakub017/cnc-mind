@@ -32,6 +32,12 @@ class Materials extends Component
     #[Validate('nullable|string|max:1000')]
     public $notes = '';
 
+    public function showAddMaterialModal()
+    {
+        $this->reset();
+        $this->modal('add-material')->show();
+    }
+
     public function addMaterial()
     {
         $validated = $this->validate();

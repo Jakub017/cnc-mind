@@ -51,6 +51,13 @@ class Operations extends Component
 
     public $notes = '';
 
+
+    public function showAddOperationModal()
+    {
+        $this->reset();
+        $this->modal('add-operation')->show();
+    }
+
     public function addOperation()
     {
         $validated = $this->validate();

@@ -6,9 +6,9 @@
                     <flux:heading size="lg">{{ __('Operations') }}</flux:heading>
                     <flux:text class="mt-1">{{ __('List of operations available in the system.') }}</flux:text>
                 </div>
-                <flux:modal.trigger name="add-operation">
-                    <flux:button class="cursor-pointer" variant="primary">{{ __('Add operation') }}</flux:button>
-                </flux:modal.trigger>
+                <flux:button wire:click="showAddOperationModal" class="cursor-pointer" variant="primary">
+                    {{ __('Add operation') }}
+                </flux:button>
             </div>
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="bg-zinc-100 dark:bg-zinc-700 text-sm text-body border-b border-t dark:border-zinc-700">

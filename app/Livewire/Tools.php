@@ -35,6 +35,12 @@ class Tools extends Component
     #[Validate('nullable|string|max:255')]
     public $insert_code = '';
 
+    public function showAddToolModal()
+    {
+        $this->reset();
+        $this->modal('add-tool')->show();
+    }
+
     public function addTool()
     {
         $validated = $this->validate();
