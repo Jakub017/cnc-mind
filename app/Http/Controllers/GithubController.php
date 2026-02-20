@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Socialite;
@@ -14,7 +15,7 @@ class GithubController extends Controller
         return Socialite::driver('github')->redirect();
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
         try {
             $githubUser = Socialite::driver('github')->user();
@@ -30,7 +31,16 @@ class GithubController extends Controller
                 'has_set_password' => false,
             ]);
 
-            Auth::login($user);
+            if ($user->two_factor_secret != null) {
+                $request->session()->put([
+                    'login.id' => $user->id,
+                    'login.remember' => true,
+                ]);
+
+                return redirect()->route('two-factor.login');
+            } else {
+                Auth::login($user);
+            }
 
             return redirect()->route('dashboard');
         } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {

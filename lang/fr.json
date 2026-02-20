@@ -217,6 +217,8 @@
     "T (Triangle)": "T (Triangle)",
     "Technological Data": "Données technologiques",
     "Theoretical roughness": "Rugosité théorique",
+    "The provided two factor authentication code was invalid.": "Le code d'authentification à deux facteurs fourni n'était pas valide.",
+    "The provided two factor recovery code was invalid.": "Le code de récupération à deux facteurs fourni n'était pas valide.",
     "This is a secure area of the application. Please confirm your password before continuing.": "Ceci est une zone sécurisée de l'application. Veuillez confirmer votre mot de passe avant de continuer.",
     "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app.": "Pour terminer l'activation de l'authentification à deux facteurs, scannez le code QR ou entrez la clé de configuration dans votre application d'authentification.",
     "Tool": "Outil",
