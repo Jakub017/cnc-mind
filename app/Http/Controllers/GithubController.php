@@ -27,6 +27,7 @@ class GithubController extends Controller
                 'github_token' => $githubUser->token,
                 'github_refresh_token' => $githubUser->refreshToken,
                 'password' => bcrypt(Str::random(16)),
+                'has_set_password' => false,
             ]);
 
             Auth::login($user);

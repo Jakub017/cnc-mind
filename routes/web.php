@@ -3,6 +3,7 @@
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\GithubController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Middleware\HasConfirmPassword;
 use App\Livewire\Files;
 use App\Livewire\Materials;
 use App\Livewire\Operations;
@@ -13,7 +14,6 @@ use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\TwoFactor;
 use App\Livewire\Tools;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,14 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('appearance.edit');
     Route::get('settings/language', Language::class)->name('language.edit');
 
-    Route::get('settings/two-factor', TwoFactor::class)
-        ->middleware(
-            when(
-                Features::canManageTwoFactorAuthentication()
-                    && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
-                ['password.confirm'],
-                [],
-            ),
-        )
-        ->name('two-factor.show');
+    Route::get('settings/two-factor', TwoFactor::class)->middleware(HasConfirmPassword::class)->name('two-factor.show');
+        
 });

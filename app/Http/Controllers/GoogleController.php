@@ -27,6 +27,7 @@ class GoogleController extends Controller
                 'google_token' => $googleUser->token,
                 'google_refresh_token' => $googleUser->refreshToken,
                 'password' => bcrypt(Str::random(16)),
+                'has_set_password' => false,
             ]);
 
             Auth::login($user);
