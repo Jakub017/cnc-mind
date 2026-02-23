@@ -1380,16 +1380,16 @@
         },
         {
             "name": "laravel/ai",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ai.git",
-                "reference": "f08b29750987c217a81145aaff242ba5714cd8fd"
+                "reference": "7487f1208ba95a7d32e1609abb1b7f7a801a74fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ai/zipball/f08b29750987c217a81145aaff242ba5714cd8fd",
-                "reference": "f08b29750987c217a81145aaff242ba5714cd8fd",
+                "url": "https://api.github.com/repos/laravel/ai/zipball/7487f1208ba95a7d32e1609abb1b7f7a801a74fe",
+                "reference": "7487f1208ba95a7d32e1609abb1b7f7a801a74fe",
                 "shasum": ""
             },
             "require": {
@@ -1442,7 +1442,7 @@
                 "issues": "https://github.com/laravel/ai/issues",
                 "source": "https://github.com/laravel/ai"
             },
-            "time": "2026-02-18T21:44:14+00:00"
+            "time": "2026-02-19T14:27:55+00:00"
         },
         {
             "name": "laravel/fortify",

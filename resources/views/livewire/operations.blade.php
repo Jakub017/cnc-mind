@@ -97,6 +97,17 @@
                             </flux:select>
                         </div>
                     </div>
+                    @if (count($files) > 0)
+                        <div class="w-full">
+                            <flux:select wire:model.live="file_id" label="{{ __('File') }}"
+                                placeholder="{{ __('Select file') }}">
+                                @foreach ($files as $file)
+                                    <flux:select.option wire:key="{{ $file->id }}" value="{{ $file->id }}">
+                                        {{ $file->name }}</flux:select.option>
+                                @endforeach
+                            </flux:select>
+                        </div>
+                    @endif
                     @if ($visible_answer == false)
                         <div class="flex flex-col gap-4">
                             <flux:field variant="inline">

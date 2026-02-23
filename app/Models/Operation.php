@@ -22,6 +22,7 @@ class Operation extends Model
         'theoretical_roughness_ra',
         'g_code',
         'notes',
+        'file_id',
     ];
 
     public function user()
@@ -32,6 +33,11 @@ class Operation extends Model
     public function tool()
     {
         return $this->belongsTo(Tool::class);
+    }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
     }
 
     public function material()

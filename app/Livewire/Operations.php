@@ -32,6 +32,9 @@ class Operations extends Component
     #[Validate('required')]
     public $material_id = '';
 
+    #[Validate('nullable')]
+    public $file_id = '';
+
     public $cutting_speed_vc = null;
 
     public $spindle_speed_n = null;
@@ -68,11 +71,22 @@ class Operations extends Component
         $tool = Tool::find($validated['tool_id']);
         $material = Material::find($validated['material_id']);
 
-        $parametersAgent = new ParametersSpecialist(
+        if($validated['file_id']) {
+            $parametersAgent = new ParametersSpecialist(
             tool: $tool,
             material: $material,
             description: $validated['description'] ?? '',
+            file_id: $validated['file_id'] ?? null,
+            store_id: auth()->user()->vectorStore->google_id,
         );
+        } else {
+            $parametersAgent = new ParametersSpecialist(
+                tool: $tool,
+                material: $material,
+                description: $validated['description'] ?? '',
+            );
+        }
+        
 
         $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
 
@@ -207,7 +221,8 @@ class Operations extends Component
         $operations = auth()->user()->operations()->paginate(5);
         $tools = auth()->user()->tools()->get();
         $materials = auth()->user()->materials()->get();
+        $files = auth()->user()->files()->where('status', 'indexed')->get();
 
-        return view('livewire.operations', compact('operations', 'tools', 'materials'));
+        return view('livewire.operations', compact('operations', 'tools', 'materials', 'files'));
     }
 }

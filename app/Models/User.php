@@ -30,6 +30,7 @@ class User extends Authenticatable
         'github_id',
         'github_token',
         'github_refresh_token',
+        'vector_store_id',
     ];
 
     /**
@@ -82,6 +83,11 @@ class User extends Authenticatable
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function vectorStore()
+    {
+        return $this->hasOne(VectorStore::class);
     }
 
     public function operations()

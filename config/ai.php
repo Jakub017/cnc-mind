@@ -82,6 +82,9 @@ return [
         'gemini' => [
             'driver' => 'gemini',
             'key' => env('GEMINI_API_KEY'),
+            'http' => [
+                'timeout' => 300,
+            ],
         ],
 
         'groq' => [

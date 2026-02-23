@@ -12,6 +12,7 @@ use Laravel\Ai\Promptable;
 use Stringable;
 use App\Models\Tool as ToolModel;
 use App\Models\Material;
+use Laravel\Ai\Providers\Tools\FileSearch;
 
 class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput, HasTools
 {
@@ -21,6 +22,8 @@ class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput
         public ToolModel $tool,
         public Material $material,
         public string $description,
+        public ?int $file_id = null,
+        public ?string $store_id = '',
     ) {}
     /**
      * Get the instructions that the agent should follow.
@@ -110,7 +113,15 @@ class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput
      */
     public function tools(): iterable
     {
-        return [];
+        if($this->file_id == null) {
+            return [];
+        } else {
+            return [
+                new FileSearch(stores: [$this->store_id], where: [
+                    'file_id' => $this->file_id,
+                ]),
+            ];
+        }
     }
 
     /**

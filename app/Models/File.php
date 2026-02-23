@@ -12,10 +12,16 @@ class File extends Model
         'path',
         'type',
         'size',
+        'status',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function operation()
+    {
+        return $this->hasMany(File::class);
     }
 }

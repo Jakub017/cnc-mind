@@ -9,6 +9,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
+use Laravel\Ai\Stores;
+use App\Jobs\UploadFileToVectorStore;
 
 class Files extends Component
 {
@@ -17,17 +19,40 @@ class Files extends Component
     #[Validate('required|file|mimes:pdf,doc,docx|max:51200')]
     public $file;
 
+    public function openModal()
+    {
+        $this->file = null;
+        $this->modal('add-file')->show();
+    }
+
     public function updatedFile()
     {
         $this->validate();
 
-        File::create([
+        if(!(auth()->user()->vectorStore()->exists())) {
+            $store = Stores::create(
+                name: 'Knowledge Base - '.auth()->user()->name,
+                description: 'A knowledge base for storing and managing files uploaded by the user.',
+            );
+
+            auth()->user()->vectorStore()->create([
+                'user_id' => auth()->id(),
+                'google_id' => $store->id,
+                'name' => $store->name,
+            ]);
+
+        } else {
+            $store = Stores::get(auth()->user()->vectorStore->google_id);
+        }
+
+        $file = File::create([
             'user_id' => auth()->id(),
             'path' => $this->file->store(path: auth()->id().'/files'),
             'name' => $this->file->getClientOriginalName(),
             'type' => $this->file->getClientOriginalExtension(),
             'size' => $this->file->getSize(),
         ]);
+        UploadFileToVectorStore::dispatch($file->id, $store->id);
 
         $this->modal('add-file')->close();
         Toaster::success(__('File has been successfully added.'));
@@ -43,7 +68,6 @@ class Files extends Component
     public function render()
     {
         $files = auth()->user()->files()->paginate(5);
-
         return view('livewire.files', compact('files'));
     }
 }
