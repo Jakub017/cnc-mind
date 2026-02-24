@@ -22,6 +22,6 @@ class File extends Model
 
     public function operation()
     {
-        return $this->hasMany(File::class);
+        return $this->hasMany(Operation::class);
     }
 }

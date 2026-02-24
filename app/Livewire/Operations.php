@@ -72,6 +72,7 @@ class Operations extends Component
         $material = Material::find($validated['material_id']);
 
         if($validated['file_id']) {
+            $this->file_id = $validated['file_id'];
             $parametersAgent = new ParametersSpecialist(
             tool: $tool,
             material: $material,
@@ -89,6 +90,7 @@ class Operations extends Component
         
 
         $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
+
 
         $this->cutting_speed_vc = round($parametersResponse['cutting_speed_vc'], 2);
         $this->spindle_speed_n = round(($this->cutting_speed_vc * 1000) / (M_PI * $parametersResponse['effective_diameter']), 0);
@@ -128,6 +130,7 @@ class Operations extends Component
             'description' => $this->description,
             'tool_id' => $this->tool_id,
             'material_id' => $this->material_id,
+            'file_id' => $this->file_id,
             'cutting_speed_vc' => $this->cutting_speed_vc,
             'spindle_speed_n' => $this->spindle_speed_n,
             'feed_per_tooth_fz' => $this->feed_per_tooth_fz,
@@ -150,6 +153,7 @@ class Operations extends Component
         $this->name = $operation->name;
         $this->description = $operation->description;
         $this->tool_id = $operation->tool_id;
+        $this->file_id = $operation->file_id;
         $this->material_id = $operation->material_id;
         $this->cutting_speed_vc = $operation->cutting_speed_vc;
         $this->spindle_speed_n = $operation->spindle_speed_n;
@@ -173,6 +177,7 @@ class Operations extends Component
         $this->description = $operation->description;
         $this->tool_id = $operation->tool_id;
         $this->material_id = $operation->material_id;
+        $this->file_id = $operation->file_id;
         $this->cutting_speed_vc = $operation->cutting_speed_vc;
         $this->spindle_speed_n = $operation->spindle_speed_n;
         $this->feed_per_tooth_fz = $operation->feed_per_tooth_fz;
@@ -195,6 +200,7 @@ class Operations extends Component
             'description' => $this->description,
             'tool_id' => $this->tool_id,
             'material_id' => $this->material_id,
+            'file_id' => $this->file_id,
             'cutting_speed_vc' => $this->cutting_speed_vc,
             'spindle_speed_n' => $this->spindle_speed_n,
             'feed_per_tooth_fz' => $this->feed_per_tooth_fz,

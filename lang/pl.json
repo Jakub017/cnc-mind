@@ -270,5 +270,10 @@
     "results": "wyników",
     "rpm": "obr/min",
     "to": "do",
-    "μm": "μm"
+    "μm": "μm",
+    "Indexed": "Zindeksowano",
+    "Indexing": "Indeksowanie",
+    "Select file": "Wybierz plik",
+    "Status": "Status",
+    "Supported formats: .pdf, .doc, .docx. Max size: 50MB.": "Obsługiwane formaty: .pdf, .doc, .docx. Maks. rozmiar: 50MB."
 }

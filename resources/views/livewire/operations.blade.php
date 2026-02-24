@@ -248,24 +248,17 @@
                         placeholder="{{ __('Enter operation description') }}" />
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div class="w-full md:w-1/2">
-                            <flux:select wire:model="tool_id" label="{{ __('Tool') }}"
-                                placeholder="{{ __('Select tool') }}" disabled>
-                                @foreach ($tools as $tool)
-                                    <flux:select.option wire:key="{{ $tool->id }}" value="{{ $tool->id }}">
-                                        {{ $tool->name }}</flux:select.option>
-                                @endforeach
-                            </flux:select>
+                            <flux:input label="{{ __('Tool') }}" disabled value="{{ $tool->name }}" />
                         </div>
                         <div class="w-full md:w-1/2">
-                            <flux:select wire:model="material_id" label="{{ __('Material') }}"
-                                placeholder="{{ __('Select material') }}" disabled>
-                                @foreach ($materials as $material)
-                                    <flux:select.option wire:key="{{ $material->id }}" value="{{ $material->id }}">
-                                        {{ $material->name }}</flux:select.option>
-                                @endforeach
-                            </flux:select>
+                            <flux:input label="{{ __('Material') }}" disabled value="{{ $material->name }}" />
                         </div>
                     </div>
+                    @if ($file)
+                        <div class="w-full">
+                            <flux:input label="{{ __('File') }}" disabled value="{{ $file->name }}" />
+                        </div>
+                    @endif
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div class="w-full md:w-1/2">
                             <flux:input wire:model="cutting_speed_vc"
@@ -337,32 +330,25 @@
         <!-- See operation modal -->
         <flux:modal name="see-operation" class="w-3/4 md:w-xl" flyout>
             <div class="space-y-6">
-                <form class="w-full flex flex-col gap-4">
+                <div class="w-full flex flex-col gap-4">
                     <flux:input wire:model="name" label="{{ __('Operation name') }}"
                         placeholder="{{ __('Enter operation name') }}" disabled />
                     <flux:textarea wire:model="description" label="{{ __('Description') }}"
                         placeholder="{{ __('Enter operation description') }}" disabled />
                     <div class="w-full flex flex-col md:flex-row gap-4">
                         <div class="w-full md:w-1/2">
-                            <flux:select wire:model.live="tool_id" label="{{ __('Tool') }}"
-                                placeholder="{{ __('Select tool') }}" disabled>
-                                @foreach ($tools as $tool)
-                                    <flux:select.option wire:key="{{ $tool->id }}"
-                                        value="{{ $tool->id }}">{{ $tool->name }}</flux:select.option>
-                                @endforeach
-                            </flux:select>
+                            <flux:input label="{{ __('Tool') }}" disabled value="{{ $tool->name }}" />
                         </div>
                         <div class="w-full md:w-1/2">
-                            <flux:select wire:model.live="material_id" label="{{ __('Material') }}"
-                                placeholder="{{ __('Select material') }}" disabled>
-                                @foreach ($materials as $material)
-                                    <flux:select.option wire:key="{{ $material->id }}"
-                                        value="{{ $material->id }}">{{ $material->name }}</flux:select.option>
-                                @endforeach
-                            </flux:select>
+                            <flux:input label="{{ __('Material') }}" disabled value="{{ $material->name }}" />
                         </div>
                     </div>
-                </form>
+                    @if ($file)
+                        <div class="w-full">
+                            <flux:input label="{{ __('File') }}" disabled value="{{ $file->name }}" />
+                        </div>
+                    @endif
+                </div>
                 <flux:separator text="{{ __('Calculated Parameters') }}" />
                 <div class="flex w-full flex-col gap-4">
                     <div class="flex w-full flex-col md:flex-row gap-4">
