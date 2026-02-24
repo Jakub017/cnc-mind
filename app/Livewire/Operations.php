@@ -33,7 +33,7 @@ class Operations extends Component
     public $material_id = '';
 
     #[Validate('nullable')]
-    public $file_id = '';
+    public $file_id = null;
 
     public $cutting_speed_vc = null;
 

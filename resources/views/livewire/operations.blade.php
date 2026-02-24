@@ -232,229 +232,246 @@
         </flux:modal>
 
         <!-- Edit operation modal -->
-        <flux:modal name="edit-operation" class="w-3/4 md:w-xl" flyout>
-            <div class="space-y-6">
-                <div>
-                    <flux:heading size="lg">{{ __('Edit operation') }}</flux:heading>
-                    <flux:text class="mt-2">
-                        {{ __('Adjust operation data and cutting parameters as needed.') }}
-                    </flux:text>
+        @if ($current_operation)
+            <flux:modal name="edit-operation" class="w-3/4 md:w-xl" flyout>
+                <div class="space-y-6">
+                    <div>
+                        <flux:heading size="lg">{{ __('Edit operation') }}</flux:heading>
+                        <flux:text class="mt-2">
+                            {{ __('Adjust operation data and cutting parameters as needed.') }}
+                        </flux:text>
+                    </div>
+
+                    <form wire:submit="updateOperation" class="w-full flex flex-col gap-4">
+                        <flux:input wire:model="name" label="{{ __('Operation name') }}"
+                            placeholder="{{ __('Enter operation name') }}" required />
+                        <flux:textarea wire:model="description" label="{{ __('Description') }}"
+                            placeholder="{{ __('Enter operation description') }}" />
+
+                        <div class="w-full flex flex-col md:flex-row gap-4">
+                            <div class="w-full md:w-1/2">
+                                <flux:input label="{{ __('Tool') }}" disabled
+                                    value="{{ $current_operation->tool->name }}" />
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <flux:input label="{{ __('Material') }}" disabled
+                                    value="{{ $current_operation->material->name }}" />
+                            </div>
+                        </div>
+                        @if ($current_operation->file != null)
+                            <div class="w-full">
+                                <flux:input label="{{ __('File') }}" disabled
+                                    value="{{ $current_operation->file->name }}" />
+                            </div>
+                        @endif
+
+                        <div class="w-full flex flex-col md:flex-row gap-4">
+                            <div class="w-full md:w-1/2">
+                                <flux:input wire:model="cutting_speed_vc"
+                                    label="{{ __('Cutting speed') }} [{{ __('m/min') }}]"
+                                    placeholder="{{ __('Enter cutting speed') }}" required />
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <flux:input wire:model="spindle_speed_n"
+                                    label="{{ __('Spindle speed') }} [{{ __('rpm') }}]"
+                                    placeholder="{{ __('Enter spindle speed') }}" required />
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-col md:flex-row gap-4">
+                            @if ($feed_per_tooth_fz != null)
+                                <div class="w-full md:w-1/2">
+                                    <flux:input wire:model="feed_per_tooth_fz"
+                                        label="{{ __('Feed per tooth') }} [{{ __('mm/tooth') }}]"
+                                        placeholder="{{ __('Enter feed per tooth') }}" required />
+                                </div>
+                                @endif @if ($feed_per_revolution_fn != null)
+                                    <div class="w-full md:w-1/2">
+                                        <flux:input wire:model="feed_per_revolution_fn"
+                                            label="{{ __('Feed per revolution') }} [{{ __('mm/rev') }}]"
+                                            placeholder="{{ __('Enter feed per revolution') }}" required />
+                                    </div>
+                                @endif
+                                <div class="w-full md:w-1/2">
+                                    <flux:input wire:model="feed_rate_vf"
+                                        label="{{ __('Feed rate') }} [{{ __('mm/min') }}]"
+                                        placeholder="{{ __('Enter feed rate') }}" required />
+                                </div>
+                        </div>
+                        <div class="w-full flex flex-col md:flex-row gap-4">
+                            <div class="w-full md:w-1/2">
+                                <flux:input wire:model="depth_of_cut_ap"
+                                    label="{{ __('Depth of cut') }} [{{ __('mm') }}]"
+                                    placeholder="{{ __('Enter depth of cut') }}" required />
+                            </div>
+                            @if ($width_of_cut_ae != null)
+                                <div class="w-full md:w-1/2">
+                                    <flux:input wire:model="width_of_cut_ae"
+                                        label="{{ __('Width of cut') }} [{{ __('mm') }}]"
+                                        placeholder="{{ __('Enter width of cut') }}" required />
+                                </div>
+                                @endif @if ($theoretical_roughness_ra != null)
+                                    <div class="w-full md:w-1/2">
+                                        <flux:input wire:model="theoretical_roughness_ra"
+                                            label="{{ __('Theoretical roughness') }} [{{ __('μm') }}]"
+                                            placeholder="{{ __('Enter theoretical roughness') }}" required />
+                                    </div>
+                                @endif
+                        </div>
+                        @if ($g_code != '')
+                            <flux:textarea wire:model="g_code" label="{{ __('G-code') }}"
+                                placeholder="{{ __('Enter G-code') }}" />
+                        @endif
+                        <flux:textarea wire:model="notes" label="{{ __('Notes') }}"
+                            placeholder="{{ __('Enter notes') }}" />
+                        <div class="flex">
+                            <flux:spacer />
+                            <flux:button class="cursor-pointer" type="submit" variant="primary">
+                                {{ __('Save Changes') }}</flux:button>
+                        </div>
+                    </form>
                 </div>
-
-                <form wire:submit="updateOperation" class="w-full flex flex-col gap-4">
-                    <flux:input wire:model="name" label="{{ __('Operation name') }}"
-                        placeholder="{{ __('Enter operation name') }}" required />
-                    <flux:textarea wire:model="description" label="{{ __('Description') }}"
-                        placeholder="{{ __('Enter operation description') }}" />
-                    <div class="w-full flex flex-col md:flex-row gap-4">
-                        <div class="w-full md:w-1/2">
-                            <flux:input label="{{ __('Tool') }}" disabled value="{{ $tool->name }}" />
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <flux:input label="{{ __('Material') }}" disabled value="{{ $material->name }}" />
-                        </div>
-                    </div>
-                    @if ($file)
-                        <div class="w-full">
-                            <flux:input label="{{ __('File') }}" disabled value="{{ $file->name }}" />
-                        </div>
-                    @endif
-                    <div class="w-full flex flex-col md:flex-row gap-4">
-                        <div class="w-full md:w-1/2">
-                            <flux:input wire:model="cutting_speed_vc"
-                                label="{{ __('Cutting speed') }} [{{ __('m/min') }}]"
-                                placeholder="{{ __('Enter cutting speed') }}" required />
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <flux:input wire:model="spindle_speed_n"
-                                label="{{ __('Spindle speed') }} [{{ __('rpm') }}]"
-                                placeholder="{{ __('Enter spindle speed') }}" required />
-                        </div>
-                    </div>
-
-                    <div class="w-full flex flex-col md:flex-row gap-4">
-                        @if ($feed_per_tooth_fz != null)
-                            <div class="w-full md:w-1/2">
-                                <flux:input wire:model="feed_per_tooth_fz"
-                                    label="{{ __('Feed per tooth') }} [{{ __('mm/tooth') }}]"
-                                    placeholder="{{ __('Enter feed per tooth') }}" required />
-                            </div>
-                            @endif @if ($feed_per_revolution_fn != null)
-                                <div class="w-full md:w-1/2">
-                                    <flux:input wire:model="feed_per_revolution_fn"
-                                        label="{{ __('Feed per revolution') }} [{{ __('mm/rev') }}]"
-                                        placeholder="{{ __('Enter feed per revolution') }}" required />
-                                </div>
-                            @endif
-                            <div class="w-full md:w-1/2">
-                                <flux:input wire:model="feed_rate_vf"
-                                    label="{{ __('Feed rate') }} [{{ __('mm/min') }}]"
-                                    placeholder="{{ __('Enter feed rate') }}" required />
-                            </div>
-                    </div>
-                    <div class="w-full flex flex-col md:flex-row gap-4">
-                        <div class="w-full md:w-1/2">
-                            <flux:input wire:model="depth_of_cut_ap"
-                                label="{{ __('Depth of cut') }} [{{ __('mm') }}]"
-                                placeholder="{{ __('Enter depth of cut') }}" required />
-                        </div>
-                        @if ($width_of_cut_ae != null)
-                            <div class="w-full md:w-1/2">
-                                <flux:input wire:model="width_of_cut_ae"
-                                    label="{{ __('Width of cut') }} [{{ __('mm') }}]"
-                                    placeholder="{{ __('Enter width of cut') }}" required />
-                            </div>
-                            @endif @if ($theoretical_roughness_ra != null)
-                                <div class="w-full md:w-1/2">
-                                    <flux:input wire:model="theoretical_roughness_ra"
-                                        label="{{ __('Theoretical roughness') }} [{{ __('μm') }}]"
-                                        placeholder="{{ __('Enter theoretical roughness') }}" required />
-                                </div>
-                            @endif
-                    </div>
-                    @if ($g_code != '')
-                        <flux:textarea wire:model="g_code" label="{{ __('G-code') }}"
-                            placeholder="{{ __('Enter G-code') }}" />
-                    @endif
-                    <flux:textarea wire:model="notes" label="{{ __('Notes') }}"
-                        placeholder="{{ __('Enter notes') }}" />
-                    <div class="flex">
-                        <flux:spacer />
-                        <flux:button class="cursor-pointer" type="submit" variant="primary">
-                            {{ __('Save Changes') }}</flux:button>
-                    </div>
-                </form>
-            </div>
-        </flux:modal>
+            </flux:modal>
+        @endif
 
         <!-- See operation modal -->
-        <flux:modal name="see-operation" class="w-3/4 md:w-xl" flyout>
-            <div class="space-y-6">
-                <div class="w-full flex flex-col gap-4">
-                    <flux:input wire:model="name" label="{{ __('Operation name') }}"
-                        placeholder="{{ __('Enter operation name') }}" disabled />
-                    <flux:textarea wire:model="description" label="{{ __('Description') }}"
-                        placeholder="{{ __('Enter operation description') }}" disabled />
-                    <div class="w-full flex flex-col md:flex-row gap-4">
-                        <div class="w-full md:w-1/2">
-                            <flux:input label="{{ __('Tool') }}" disabled value="{{ $tool->name }}" />
+        @if ($current_operation)
+            <flux:modal name="see-operation" class="w-3/4 md:w-xl" flyout>
+                <div class="space-y-6">
+                    <div class="w-full flex flex-col gap-4">
+                        <flux:input wire:model="name" label="{{ __('Operation name') }}"
+                            placeholder="{{ __('Enter operation name') }}" disabled />
+                        <flux:textarea wire:model="description" label="{{ __('Description') }}"
+                            placeholder="{{ __('Enter operation description') }}" disabled />
+                        <div class="w-full flex flex-col md:flex-row gap-4">
+
+                            <div class="w-full md:w-1/2">
+                                <flux:input label="{{ __('Tool') }}" disabled
+                                    value="{{ $current_operation->tool->name }}" />
+                            </div>
+
+                            <div class="w-full md:w-1/2">
+                                <flux:input label="{{ __('Material') }}" disabled
+                                    value="{{ $current_operation->material->name }}" />
+                            </div>
+
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <flux:input label="{{ __('Material') }}" disabled value="{{ $material->name }}" />
-                        </div>
+
+                        @if ($current_operation->file != null)
+                            <div class="w-full">
+                                <flux:input label="{{ __('File') }}" disabled
+                                    value="{{ $current_operation->file->name }}" />
+                            </div>
+                        @endif
+
                     </div>
-                    @if ($file)
-                        <div class="w-full">
-                            <flux:input label="{{ __('File') }}" disabled value="{{ $file->name }}" />
-                        </div>
-                    @endif
-                </div>
-                <flux:separator text="{{ __('Calculated Parameters') }}" />
-                <div class="flex w-full flex-col gap-4">
-                    <div class="flex w-full flex-col md:flex-row gap-4">
-                        <div
-                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                            <flux:heading>
-                                {{ __('Cutting speed') }}
-                            </flux:heading>
-                            <flux:text>{{ $cutting_speed_vc }}
-                                {{ __('m/min') }}</flux:text>
-                        </div>
-                        <div
-                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                            <flux:heading>
-                                {{ __('Spindle speed') }}
-                            </flux:heading>
-                            <flux:text>{{ $spindle_speed_n }}
-                                {{ __('rpm') }}</flux:text>
-                        </div>
-                        @if ($feed_per_tooth_fz != null)
+                    <flux:separator text="{{ __('Calculated Parameters') }}" />
+                    <div class="flex w-full flex-col gap-4">
+                        <div class="flex w-full flex-col md:flex-row gap-4">
                             <div
                                 class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
                                 <flux:heading>
-                                    {{ __('Feed per tooth') }}
+                                    {{ __('Cutting speed') }}
                                 </flux:heading>
-                                <flux:text>{{ $feed_per_tooth_fz }}
-                                    {{ __('mm/tooth') }}</flux:text>
+                                <flux:text>{{ $cutting_speed_vc }}
+                                    {{ __('m/min') }}</flux:text>
                             </div>
-                            @endif @if ($feed_per_revolution_fn != null)
+                            <div
+                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
+                                <flux:heading>
+                                    {{ __('Spindle speed') }}
+                                </flux:heading>
+                                <flux:text>{{ $spindle_speed_n }}
+                                    {{ __('rpm') }}</flux:text>
+                            </div>
+                            @if ($feed_per_tooth_fz != null)
                                 <div
                                     class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
                                     <flux:heading>
-                                        {{ __('Feed per revolution') }}
+                                        {{ __('Feed per tooth') }}
                                     </flux:heading>
-                                    <flux:text>{{ $feed_per_revolution_fn }}
-                                        {{ __('mm/rev') }}</flux:text>
+                                    <flux:text>{{ $feed_per_tooth_fz }}
+                                        {{ __('mm/tooth') }}</flux:text>
                                 </div>
-                            @endif
-                    </div>
+                                @endif @if ($feed_per_revolution_fn != null)
+                                    <div
+                                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
+                                        <flux:heading>
+                                            {{ __('Feed per revolution') }}
+                                        </flux:heading>
+                                        <flux:text>{{ $feed_per_revolution_fn }}
+                                            {{ __('mm/rev') }}</flux:text>
+                                    </div>
+                                @endif
+                        </div>
 
-                    <div class="flex w-full flex-col md:flex-row gap-4">
-                        <div
-                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                            <flux:heading>
-                                {{ __('Feed rate') }}
-                            </flux:heading>
-                            <flux:text>{{ $feed_rate_vf }}
-                                {{ __('mm/min') }}</flux:text>
-                        </div>
-                        <div
-                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                            <flux:heading>
-                                {{ __('Depth of cut') }}
-                            </flux:heading>
-                            <flux:text>{{ $depth_of_cut_ap }}
-                                {{ __('mm') }}</flux:text>
-                        </div>
-                        @if ($width_of_cut_ae != null)
+                        <div class="flex w-full flex-col md:flex-row gap-4">
                             <div
                                 class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
                                 <flux:heading>
-                                    {{ __('Width of cut') }}
+                                    {{ __('Feed rate') }}
                                 </flux:heading>
-                                <flux:text>{{ $width_of_cut_ae }}
+                                <flux:text>{{ $feed_rate_vf }}
+                                    {{ __('mm/min') }}</flux:text>
+                            </div>
+                            <div
+                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
+                                <flux:heading>
+                                    {{ __('Depth of cut') }}
+                                </flux:heading>
+                                <flux:text>{{ $depth_of_cut_ap }}
                                     {{ __('mm') }}</flux:text>
                             </div>
-                            @endif @if ($theoretical_roughness_ra != null)
+                            @if ($width_of_cut_ae != null)
                                 <div
                                     class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
                                     <flux:heading>
-                                        {{ __('Theoretical roughness') }}
+                                        {{ __('Width of cut') }}
                                     </flux:heading>
-                                    <flux:text>{{ $theoretical_roughness_ra }}
-                                        {{ __('μm') }}</flux:text>
+                                    <flux:text>{{ $width_of_cut_ae }}
+                                        {{ __('mm') }}</flux:text>
                                 </div>
-                            @endif
-                    </div>
-                    @if ($g_code != '')
+                                @endif @if ($theoretical_roughness_ra != null)
+                                    <div
+                                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
+                                        <flux:heading>
+                                            {{ __('Theoretical roughness') }}
+                                        </flux:heading>
+                                        <flux:text>{{ $theoretical_roughness_ra }}
+                                            {{ __('μm') }}</flux:text>
+                                    </div>
+                                @endif
+                        </div>
+                        @if ($g_code != '')
+                            <div
+                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
+                                <flux:heading>
+                                    {{ __('G-code') }}
+                                </flux:heading>
+                                <flux:text>{{ $g_code }}</flux:text>
+                            </div>
+                        @endif
+                        <div
+                            class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4">
+                            <flux:heading class="dark:text-white">
+                                {{ __('Notes') }}
+                            </flux:heading>
+                            <flux:text class="dark:text-white">{{ $notes }}</flux:text>
+                        </div>
                         <div
                             class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
                             <flux:heading>
-                                {{ __('G-code') }}
+                                {{ __('Important safety note') }}
                             </flux:heading>
-                            <flux:text>{{ $g_code }}</flux:text>
+                            <flux:text>
+                                {{ __(
+                                    'AI-generated parameters and G-code are for informational purposes only. Always verify data with manufacturer catalogs and machine manuals. The user assumes full responsibility for any tool breakage, machine damage, or accidents resulting from the use of this data.',
+                                ) }}
+                            </flux:text>
                         </div>
-                    @endif
-                    <div
-                        class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4">
-                        <flux:heading class="dark:text-white">
-                            {{ __('Notes') }}
-                        </flux:heading>
-                        <flux:text class="dark:text-white">{{ $notes }}</flux:text>
-                    </div>
-                    <div
-                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                        <flux:heading>
-                            {{ __('Important safety note') }}
-                        </flux:heading>
-                        <flux:text>
-                            {{ __(
-                                'AI-generated parameters and G-code are for informational purposes only. Always verify data with manufacturer catalogs and machine manuals. The user assumes full responsibility for any tool breakage, machine damage, or accidents resulting from the use of this data.',
-                            ) }}
-                        </flux:text>
                     </div>
                 </div>
-            </div>
-        </flux:modal>
+            </flux:modal>
+        @endif
     </div>
 </div>
