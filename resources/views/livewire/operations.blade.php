@@ -99,8 +99,8 @@
                     </div>
                     @if (count($files) > 0)
                         <div class="w-full">
-                            <flux:select wire:model.live="file_id" label="{{ __('File') }}"
-                                placeholder="{{ __('Select file') }}">
+                            <flux:select wire:model.live="file_id" label="{{ __('File') }}">
+                                <flux:select.option value="">{{ __('Select file') }}</flux:select.option>
                                 @foreach ($files as $file)
                                     <flux:select.option wire:key="{{ $file->id }}" value="{{ $file->id }}">
                                         {{ $file->name }}</flux:select.option>
