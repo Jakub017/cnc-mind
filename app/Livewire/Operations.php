@@ -80,18 +80,16 @@ class Operations extends Component
             file_id: $validated['file_id'] ?? null,
             store_id: auth()->user()->vectorStore->google_id,
         );
+        $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji. UWAGA: Otrzymałeś plik, skorzystaj z narzędzia (tool) FileSearch w celu uzyskania z pliku jeszcze dokładniejszych danych. ');
         } else {
             $parametersAgent = new ParametersSpecialist(
                 tool: $tool,
                 material: $material,
                 description: $validated['description'] ?? '',
             );
+            $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
         }
         
-
-        $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
-
-
         $this->cutting_speed_vc = round($parametersResponse['cutting_speed_vc'], 2);
         $this->spindle_speed_n = round(($this->cutting_speed_vc * 1000) / (M_PI * $parametersResponse['effective_diameter']), 0);
         $this->feed_per_tooth_fz = isset($parametersResponse['feed_per_tooth_fz']) ? round($parametersResponse['feed_per_tooth_fz'], 4) : null;
