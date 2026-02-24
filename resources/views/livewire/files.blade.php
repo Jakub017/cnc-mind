@@ -37,7 +37,10 @@
                             </td>
                             <td class="px-6 py-4" wire:poll.5000ms>
                                 @if ($file->status == 'indexing')
-                                    <flux:badge color="yellow">{{ __('Indexing') }}</flux:badge>
+                                    <flux:badge color="yellow" class="flex items-center gap-2">
+                                        <div class="w-2 h-2 bg-yellow-800 dark:bg-yellow-200 rounded-full animate-ping">
+                                        </div> {{ __('Indexing') }}
+                                    </flux:badge>
                                 @elseif($file->status == 'indexed')
                                     <flux:badge color="green">{{ __('Indexed') }}</flux:badge>
                                 @endif
