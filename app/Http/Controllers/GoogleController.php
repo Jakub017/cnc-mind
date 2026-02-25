@@ -30,12 +30,13 @@ class GoogleController extends Controller
                 'password' => bcrypt(Str::random(16)),
                 'has_set_password' => false,
             ]);
-            
-            if($user->two_factor_secret != null) {
-               $request->session()->put([
+
+            if ($user->two_factor_secret != null) {
+                $request->session()->put([
                     'login.id' => $user->id,
                     'login.remember' => true,
                 ]);
+
                 return redirect()->route('two-factor.login');
             } else {
                 Auth::login($user);

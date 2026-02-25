@@ -50,5 +50,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/language', Language::class)->name('language.edit');
 
     Route::get('settings/two-factor', TwoFactor::class)->middleware(HasConfirmPassword::class)->name('two-factor.show');
-        
+
 });

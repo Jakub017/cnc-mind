@@ -14,7 +14,9 @@ class UploadFileToVectorStore implements ShouldQueue
     use Queueable;
 
     public $tries = 5;
+
     public $timeout = 300;
+
     public function backoff(): array
     {
         return [15, 30, 60, 120];
@@ -26,8 +28,7 @@ class UploadFileToVectorStore implements ShouldQueue
     public function __construct(
         public int $fileId,
         public string $storeId,
-    )
-    {}
+    ) {}
 
     /**
      * Execute the job.

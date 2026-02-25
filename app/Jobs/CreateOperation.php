@@ -21,7 +21,7 @@ class CreateOperation implements ShouldQueue
         public int $userId,
         public array $validated,
         public bool $wantGCode = false,
-    ){}
+    ) {}
 
     /**
      * Execute the job.
@@ -31,15 +31,15 @@ class CreateOperation implements ShouldQueue
         $tool = Tool::find($this->validated['tool_id']);
         $material = Material::find($this->validated['material_id']);
 
-        if($this->validated['file_id']) {
+        if ($this->validated['file_id']) {
             $parametersAgent = new ParametersSpecialist(
-            tool: $tool,
-            material: $material,
-            description: $this->validated['description'] ?? '',
-            file_id: $this->validated['file_id'] ?? null,
-            store_id: auth()->user()->vectorStore->google_id,
-        );
-        $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji. UWAGA: Otrzymałeś plik, skorzystaj z narzędzia (tool) FileSearch w celu uzyskania z pliku jeszcze dokładniejszych danych. ');
+                tool: $tool,
+                material: $material,
+                description: $this->validated['description'] ?? '',
+                file_id: $this->validated['file_id'] ?? null,
+                store_id: auth()->user()->vectorStore->google_id,
+            );
+            $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji. UWAGA: Otrzymałeś plik, skorzystaj z narzędzia (tool) FileSearch w celu uzyskania z pliku jeszcze dokładniejszych danych. ');
         } else {
             $parametersAgent = new ParametersSpecialist(
                 tool: $tool,
@@ -48,7 +48,7 @@ class CreateOperation implements ShouldQueue
             );
             $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
         }
-        
+
         $cutting_speed_vc = round($parametersResponse['cutting_speed_vc'], 2);
         $spindle_speed_n = round(($cutting_speed_vc * 1000) / (M_PI * $parametersResponse['effective_diameter']), 0);
         $feed_per_tooth_fz = isset($parametersResponse['feed_per_tooth_fz']) ? round($parametersResponse['feed_per_tooth_fz'], 4) : null;
@@ -98,7 +98,7 @@ class CreateOperation implements ShouldQueue
             'notes' => $notes ?? '',
             'status' => 'completed',
         ]);
-       
+
         $this->operation->save();
     }
 }

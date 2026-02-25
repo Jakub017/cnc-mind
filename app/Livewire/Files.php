@@ -2,15 +2,15 @@
 
 namespace App\Livewire;
 
+use App\Jobs\UploadFileToVectorStore;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Ai\Stores;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
-use Laravel\Ai\Stores;
-use App\Jobs\UploadFileToVectorStore;
 
 class Files extends Component
 {
@@ -29,7 +29,7 @@ class Files extends Component
     {
         $this->validate();
 
-        if(!(auth()->user()->vectorStore()->exists())) {
+        if (! (auth()->user()->vectorStore()->exists())) {
             $store = Stores::create(
                 name: 'Knowledge Base - '.auth()->user()->name,
                 description: 'A knowledge base for storing and managing files uploaded by the user.',
@@ -68,6 +68,7 @@ class Files extends Component
     public function render()
     {
         $files = auth()->user()->files()->paginate(5);
+
         return view('livewire.files', compact('files'));
     }
 }

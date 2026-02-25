@@ -2,12 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Ai\Agents\CodeSpecialist;
-use App\Ai\Agents\ParametersSpecialist;
 use App\Jobs\CreateOperation;
-use App\Models\Material;
 use App\Models\Operation;
-use App\Models\Tool;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -56,7 +52,6 @@ class Operations extends Component
 
     public $notes = '';
 
-
     public function showAddOperationModal()
     {
         $this->reset();
@@ -77,7 +72,7 @@ class Operations extends Component
         ]);
 
         CreateOperation::dispatch($operation, auth()->user()->id, $validated, $this->want_g_code);
-        
+
         $this->modal('add-operation')->close();
 
         Toaster::success(__('Operation has been added to queue.'));

@@ -2,13 +2,13 @@
 
 namespace App\Ai\Agents;
 
+use App\Models\Tool as ToolModel;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Promptable;
 use Stringable;
-use App\Models\Tool as ToolModel;
 
 class CodeSpecialist implements Agent, Conversational, HasTools
 {
@@ -18,9 +18,9 @@ class CodeSpecialist implements Agent, Conversational, HasTools
         public int $spindle_speed_n,
         public string $description,
         public ToolModel $tool,
-        public ?float $feed_per_revolution_fn = null,
-        public ?int $feed_rate_vf = null,
-        public ?float $width_of_cut_ae = null,
+        public ?float $feed_per_revolution_fn,
+        public ?int $feed_rate_vf,
+        public ?float $width_of_cut_ae,
         public float $depth_of_cut_ap,
     ) {}
 

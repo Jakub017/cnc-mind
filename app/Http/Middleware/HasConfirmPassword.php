@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Laravel\Fortify\Features;
+use Symfony\Component\HttpFoundation\Response;
 
 class HasConfirmPassword
 {
@@ -16,10 +16,10 @@ class HasConfirmPassword
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Features::canManageTwoFactorAuthentication() && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword') && auth()->user()->has_set_password == true) {
+        if (Features::canManageTwoFactorAuthentication() && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword') && auth()->user()->has_set_password == true) {
             return redirect()->route('password.confirm');
         } else {
             return $next($request);
-        } 
+        }
     }
 }

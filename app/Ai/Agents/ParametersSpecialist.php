@@ -2,6 +2,8 @@
 
 namespace App\Ai\Agents;
 
+use App\Models\Material;
+use App\Models\Tool as ToolModel;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
@@ -9,10 +11,8 @@ use Laravel\Ai\Contracts\HasStructuredOutput;
 use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Promptable;
-use Stringable;
-use App\Models\Tool as ToolModel;
-use App\Models\Material;
 use Laravel\Ai\Providers\Tools\FileSearch;
+use Stringable;
 
 class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput, HasTools
 {
@@ -25,6 +25,7 @@ class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput
         public ?int $file_id = null,
         public ?string $store_id = '',
     ) {}
+
     /**
      * Get the instructions that the agent should follow.
      */
@@ -113,7 +114,7 @@ class ParametersSpecialist implements Agent, Conversational, HasStructuredOutput
      */
     public function tools(): iterable
     {
-        if($this->file_id == null) {
+        if ($this->file_id == null) {
             return [];
         } else {
             return [
