@@ -29,33 +29,56 @@
                 </thead>
                 <tbody>
                     @foreach ($operations as $operation)
-                        <tr class="border-b dark:border-zinc-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                                {{ $operation->name }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ $operation->tool->name }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $operation->material->name }}
-                            </td>
+                        @if ($operation->status == 'pending')
+                            <flux:skeleton.group wire:poll animate="shimmer" class="">
+                                <tr class="border-b dark:border-zinc-700 relative">
+                                    <th class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                                        <flux:skeleton.line class="w-full" />
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <flux:skeleton.line class="w-full" />
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <flux:skeleton.line class="w-full" />
+                                    </td>
 
-                            <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
-                                <flux:button wire:click="seeOperation({{ $operation }})" icon="eye"
-                                    class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
-                                    {{ __('Details') }}</flux:button>
-                                <flux:button href="{{ route('operation.download', $operation) }}" target="_blank"
-                                    icon="arrow-down-tray"
-                                    class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
-                                    {{ __('Download') }} pdf</flux:button>
-                                <flux:button wire:click="editOperation({{ $operation }})" icon="pencil-square"
-                                    class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
-                                    {{ __('Edit') }}</flux:button>
-                                <flux:button wire:click="deleteOperation({{ $operation }})" icon="trash"
-                                    class="cursor-pointer hover:text-red-700 dark:hover:text-red-400">
-                                    {{ __('Delete') }}</flux:button>
-                            </td>
-                        </tr>
+                                    <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
+                                        <flux:skeleton.line class="w-[117px]" />
+                                        <flux:skeleton.line class="w-[128px]" />
+                                        <flux:skeleton.line class="w-[94px]" />
+                                        <flux:skeleton.line class="w-[85px]" />
+                                    </td>
+                                </tr>
+                            </flux:skeleton.group>
+                        @else
+                            <tr class="border-b dark:border-zinc-700">
+                                <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                                    {{ $operation->name }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ $operation->tool->name }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $operation->material->name }}
+                                </td>
+
+                                <td class="px-6 py-4 text-right flex justify-end items-center gap-2">
+                                    <flux:button wire:click="seeOperation({{ $operation }})" icon="eye"
+                                        class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
+                                        {{ __('Details') }}</flux:button>
+                                    <flux:button href="{{ route('operation.download', $operation) }}" target="_blank"
+                                        icon="arrow-down-tray"
+                                        class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
+                                        {{ __('Download') }} pdf</flux:button>
+                                    <flux:button wire:click="editOperation({{ $operation }})" icon="pencil-square"
+                                        class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
+                                        {{ __('Edit') }}</flux:button>
+                                    <flux:button wire:click="deleteOperation({{ $operation }})" icon="trash"
+                                        class="cursor-pointer hover:text-red-700 dark:hover:text-red-400">
+                                        {{ __('Delete') }}</flux:button>
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
@@ -108,126 +131,20 @@
                             </flux:select>
                         </div>
                     @endif
-                    @if ($visible_answer == false)
-                        <div class="flex flex-col gap-4">
-                            <flux:field variant="inline">
-                                <flux:checkbox wire:model="want_g_code" />
-                                <flux:label>
-                                    {{ __('Include G-code generation for this operation') }}
-                                </flux:label>
-                            </flux:field>
-                            <flux:button class="cursor-pointer w-full" type="submit" variant="primary">
-                                {{ __('Add operation') }}</flux:button>
-                        </div>
-                    @endif
-                </form>
-                @if ($visible_answer == true)
-                    <flux:separator text="{{ __('Calculated Parameters') }}" />
-                    <div class="flex w-full flex-col gap-4">
-                        <div class="flex flex-col md:flex-row w-full gap-4">
-                            <div
-                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                <flux:heading>
-                                    {{ __('Cutting speed') }}
-                                </flux:heading>
-                                <flux:text>{{ $cutting_speed_vc }}
-                                    {{ __('m/min') }}</flux:text>
-                            </div>
-                            <div
-                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                <flux:heading>
-                                    {{ __('Spindle speed') }}
-                                </flux:heading>
-                                <flux:text>{{ $spindle_speed_n }}
-                                    {{ __('rpm') }}</flux:text>
-                            </div>
-                            @if ($feed_per_tooth_fz != null)
-                                <div
-                                    class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                    <flux:heading>
-                                        {{ __('Feed per tooth') }}
-                                    </flux:heading>
-                                    <flux:text>{{ $feed_per_tooth_fz }}
-                                        {{ __('mm/tooth') }}</flux:text>
-                                </div>
-                                @endif @if ($feed_per_revolution_fn != null)
-                                    <div
-                                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                        <flux:heading>
-                                            {{ __('Feed per revolution') }}
-                                        </flux:heading>
-                                        <flux:text>{{ $feed_per_revolution_fn }}
-                                            {{ __('mm/rev') }}</flux:text>
-                                    </div>
-                                @endif
-                        </div>
 
-                        <div class="flex flex-col md:flex-row w-full gap-4">
-                            <div
-                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                <flux:heading>
-                                    {{ __('Feed rate') }}
-                                </flux:heading>
-                                <flux:text>{{ $feed_rate_vf }}
-                                    {{ __('mm/min') }}</flux:text>
-                            </div>
-                            <div
-                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                <flux:heading>
-                                    {{ __('Depth of cut') }}
-                                </flux:heading>
-                                <flux:text>{{ $depth_of_cut_ap }}
-                                    {{ __('mm') }}</flux:text>
-                            </div>
-                            @if ($width_of_cut_ae != null)
-                                <div
-                                    class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                    <flux:heading>
-                                        {{ __('Width of cut') }}
-                                    </flux:heading>
-                                    <flux:text>{{ $width_of_cut_ae }}
-                                        {{ __('mm') }}</flux:text>
-                                </div>
-                                @endif @if ($theoretical_roughness_ra != null)
-                                    <div
-                                        class="bg-zinc-50 dark:bg-zinc-700 flex w-full md:w-1/3 rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                        <flux:heading>
-                                            {{ __('Theoretical roughness') }}
-                                        </flux:heading>
-                                        <flux:text>{{ $theoretical_roughness_ra }}
-                                            {{ __('μm') }}</flux:text>
-                                    </div>
-                                @endif
-                        </div>
-                        @if ($g_code != '')
-                            <div
-                                class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                                <flux:heading>
-                                    {{ __('G-code') }}
-                                </flux:heading>
-                                <flux:text>{{ $g_code }}</flux:text>
-                            </div>
-                        @endif
-                        <div
-                            class="bg-blue-50 dark:bg-blue-700 flex w-full rounded-lg flex-col gap-2 border dark:border-blue-600 p-4">
-                            <flux:heading class="dark:text-white">
-                                {{ __('Notes') }}
-                            </flux:heading>
-                            <flux:text class="dark:text-white">{{ $notes }}</flux:text>
-                        </div>
-                        <div
-                            class="bg-zinc-50 dark:bg-zinc-700 flex w-full rounded-lg flex-col gap-2 border dark:border-zinc-600 p-4">
-                            <flux:heading>
-                                {{ __('Important safety note') }}
-                            </flux:heading>
-                            <flux:text>
-                                {{ __(
-                                    'AI-generated parameters and G-code are for informational purposes only. Always verify data with manufacturer catalogs and machine manuals. The user assumes full responsibility for any tool breakage, machine damage, or accidents resulting from the use of this data.',
-                                ) }}
-                            </flux:text>
-                        </div>
+                    <div class="flex flex-col gap-4">
+                        <flux:field variant="inline">
+                            <flux:checkbox wire:model="want_g_code" />
+                            <flux:label>
+                                {{ __('Include G-code generation for this operation') }}
+                            </flux:label>
+                        </flux:field>
+                        <flux:button class="cursor-pointer w-full" type="submit" variant="primary">
+                            {{ __('Add operation') }}</flux:button>
                     </div>
-                @endif
+
+                </form>
+
             </div>
         </flux:modal>
 

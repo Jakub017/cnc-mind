@@ -23,6 +23,7 @@ class Operation extends Model
         'g_code',
         'notes',
         'file_id',
+        'status',
     ];
 
     public function user()

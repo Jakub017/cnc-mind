@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Ai\Agents\CodeSpecialist;
 use App\Ai\Agents\ParametersSpecialist;
+use App\Jobs\CreateOperation;
 use App\Models\Material;
 use App\Models\Operation;
 use App\Models\Tool;
@@ -15,8 +16,6 @@ use Masmerise\Toaster\Toaster;
 class Operations extends Component
 {
     use WithPagination;
-    
-    public $visible_answer = false;
 
     public $current_operation;
 
@@ -68,80 +67,20 @@ class Operations extends Component
     {
         $validated = $this->validate();
 
-        $tool = Tool::find($validated['tool_id']);
-        $material = Material::find($validated['material_id']);
-
-        if($validated['file_id']) {
-            $this->file_id = $validated['file_id'];
-            $parametersAgent = new ParametersSpecialist(
-            tool: $tool,
-            material: $material,
-            description: $validated['description'] ?? '',
-            file_id: $validated['file_id'] ?? null,
-            store_id: auth()->user()->vectorStore->google_id,
-        );
-        $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji. UWAGA: Otrzymałeś plik, skorzystaj z narzędzia (tool) FileSearch w celu uzyskania z pliku jeszcze dokładniejszych danych. ');
-        } else {
-            $parametersAgent = new ParametersSpecialist(
-                tool: $tool,
-                material: $material,
-                description: $validated['description'] ?? '',
-            );
-            $parametersResponse = $parametersAgent->prompt('Przeanalizuj te dane i oblicz optymalne parametry skrawania dla tej operacji.');
-        }
-        
-        $this->cutting_speed_vc = round($parametersResponse['cutting_speed_vc'], 2);
-        $this->spindle_speed_n = round(($this->cutting_speed_vc * 1000) / (M_PI * $parametersResponse['effective_diameter']), 0);
-        $this->feed_per_tooth_fz = isset($parametersResponse['feed_per_tooth_fz']) ? round($parametersResponse['feed_per_tooth_fz'], 4) : null;
-        $this->feed_per_revolution_fn = isset($parametersResponse['feed_per_revolution_fn']) ? round($parametersResponse['feed_per_revolution_fn'], 4) : null;
-        if ($tool->type == 'turning_tool') {
-            $this->feed_rate_vf = round(($this->feed_per_revolution_fn ?? 0) * $this->spindle_speed_n, 0);
-        } else {
-            $this->feed_rate_vf = round(($this->feed_per_tooth_fz ?? 0) * ($tool->flutes ?? 1) * $this->spindle_speed_n, 0);
-        }
-        $this->depth_of_cut_ap = round($parametersResponse['depth_of_cut_ap'], 2);
-        $this->width_of_cut_ae = isset($parametersResponse['width_of_cut_ae']) ? round($parametersResponse['width_of_cut_ae'], 2) : null;
-        $this->theoretical_roughness_ra = isset($parametersResponse['theoretical_roughness_ra']) ? round($parametersResponse['theoretical_roughness_ra'], 2) : null;
-        $this->notes = $parametersResponse['notes'];
-
-        if ($this->want_g_code) {
-            $codeAgent = new CodeSpecialist(
-                spindle_speed_n: $this->spindle_speed_n,
-                description: $validated['description'] ?? '',
-                tool: $tool,
-                feed_per_revolution_fn: $this->feed_per_revolution_fn,
-                feed_rate_vf: $this->feed_rate_vf,
-                width_of_cut_ae: $this->width_of_cut_ae,
-                depth_of_cut_ap: $this->depth_of_cut_ap,
-            );
-
-            $codeResponse = $codeAgent->prompt('Przygotuj G-Code dla tej operacji.');
-
-            $this->g_code = str_replace(['```gcode', '```'], '', $codeResponse);
-        }
-
-        $this->visible_answer = true;
-
-        Operation::create([
+        $operation = Operation::create([
             'user_id' => auth()->user()->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'tool_id' => $this->tool_id,
-            'material_id' => $this->material_id,
-            'file_id' => $this->file_id,
-            'cutting_speed_vc' => $this->cutting_speed_vc,
-            'spindle_speed_n' => $this->spindle_speed_n,
-            'feed_per_tooth_fz' => $this->feed_per_tooth_fz,
-            'feed_per_revolution_fn' => $this->feed_per_revolution_fn,
-            'feed_rate_vf' => $this->feed_rate_vf,
-            'depth_of_cut_ap' => $this->depth_of_cut_ap,
-            'width_of_cut_ae' => $this->width_of_cut_ae,
-            'theoretical_roughness_ra' => $this->theoretical_roughness_ra,
-            'g_code' => $this->g_code,
-            'notes' => $this->notes,
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? '',
+            'tool_id' => $validated['tool_id'],
+            'material_id' => $validated['material_id'],
+            'file_id' => $validated['file_id'] ?? null,
         ]);
 
-        Toaster::success(__('Operation has been successfully added.'));
+        CreateOperation::dispatch($operation, auth()->user()->id, $validated, $this->want_g_code);
+        
+        $this->modal('add-operation')->close();
+
+        Toaster::success(__('Operation has been added to queue.'));
     }
 
     public function seeOperation(Operation $operation)
