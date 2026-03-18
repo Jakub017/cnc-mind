@@ -161,6 +161,7 @@
     "Notes": "Note",
     "OTP Code": "Codice OTP",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Una volta eliminato il tuo account, tutte le sue risorse e i dati saranno eliminati permanentemente. Inserisci la tua password per confermare che desideri eliminare permanentemente il tuo account.",
+    "Operation has been added to queue.": "L'operazione viene aggiunta alla coda.",
     "Operation has been successfully added.": "L'operazione è stata aggiunta con successo.",
     "Operation has been successfully deleted.": "L'operazione è stata eliminata con successo.",
     "Operation has been successfully updated.": "L'operazione è stata aggiornata con successo.",

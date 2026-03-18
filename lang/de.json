@@ -161,6 +161,7 @@
     "Notes": "Notizen",
     "OTP Code": "OTP-Code",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Sobald Ihr Konto gelöscht ist, werden alle zugehörigen Ressourcen und Daten dauerhaft gelöscht. Bitte geben Sie Ihr Passwort ein, um zu bestätigen, dass Sie Ihr Konto dauerhaft löschen möchten.",
+    "Operation has been added to queue.": "Der Vorgang wurde der Warteschlange hinzugefügt.",
     "Operation has been successfully added.": "Der Vorgang wurde erfolgreich hinzugefügt.",
     "Operation has been successfully deleted.": "Der Vorgang wurde erfolgreich gelöscht.",
     "Operation has been successfully updated.": "Der Vorgang wurde erfolgreich aktualisiert.",

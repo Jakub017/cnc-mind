@@ -33,7 +33,7 @@
                             <flux:skeleton.group wire:poll animate="shimmer" class="">
                                 <tr class="border-b dark:border-zinc-700 relative">
                                     <th class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                                        <flux:skeleton.line class="w-full" />
+                                        {{ $operation->name }}
                                     </th>
                                     <td class="px-6 py-4">
                                         <flux:skeleton.line class="w-full" />
