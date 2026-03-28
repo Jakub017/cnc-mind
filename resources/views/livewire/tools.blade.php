@@ -40,7 +40,7 @@
                                 <flux:button wire:click="editTool({{ $tool }})" icon="pencil-square"
                                     class="cursor-pointer hover:text-blue-700 dark:hover:text-blue-400">
                                     {{ __('Edit') }}</flux:button>
-                                <flux:button wire:click="deleteTool({{ $tool }})" icon="trash"
+                                <flux:button wire:click="showDeleteToolModal({{ $tool }})" icon="trash"
                                     class="cursor-pointer hover:text-red-700 dark:hover:text-red-400">
                                     {{ __('Delete') }}</flux:button>
                             </td>
@@ -240,5 +240,23 @@
                 </form>
             </div>
         </flux:modal>
+
+        <!-- Delete tool modal -->
+        <flux:modal name="delete-tool" class="w-3/4 md:w-lg">
+            <div class="flex flex-col gap-4 justify-center items-center">
+                <flux:heading size="lg">{{ __('Delete Tool') }}</flux:heading>
+                <flux:text class="text-center">
+                    {{ __('Are you sure you want to delete this tool? This operation cannot be undone.') }}
+                </flux:text>
+                <div class="flex gap-2">
+                    <flux:modal.close>
+                        <flux:button class="cursor-pointer">{{ __('Cancel') }}</flux:button>
+                    </flux:modal.close>
+                    <flux:button wire:click="deleteTool" variant="danger" class="cursor-pointer">
+                        {{ __('Delete') }}</flux:button>
+                </div>
+        </flux:modal>
     </div>
+
+</div>
 </div>

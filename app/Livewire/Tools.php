@@ -14,6 +14,8 @@ class Tools extends Component
 
     public ?Tool $editing_tool = null;
 
+    public ?Tool $deleting_tool = null;
+
     #[Validate('required|string|max:255')]
     public $name = '';
 
@@ -109,9 +111,17 @@ class Tools extends Component
         Toaster::success(__('Tool has been successfully updated.'));
     }
 
-    public function deleteTool(Tool $tool)
+    public function showDeleteToolModal(Tool $tool)
     {
-        auth()->user()->tools()->where('id', $tool->id)->delete();
+        $this->modal('delete-tool')->show();
+        $this->deleting_tool = $tool;
+    }
+
+    public function deleteTool()
+    {
+        auth()->user()->tools()->where('id', $this->deleting_tool->id)->delete();
+        $this->deleting_tool = null;
+        $this->modal('delete-tool')->close();
         Toaster::success(__('Tool has been successfully deleted.'));
     }
 

@@ -14,6 +14,8 @@ class Materials extends Component
 
     public ?Material $editing_material = null;
 
+    public ?Material $deleting_material = null;
+
     #[Validate('required|string|max:255')]
     public $name = '';
 
@@ -93,6 +95,12 @@ class Materials extends Component
 
         $this->modal('edit-material')->close();
         Toaster::success(__('Material has been successfully updated.'));
+    }
+
+    public function showDeleteMaterialModal(Material $material)
+    {
+        $this->modal('delete-material')->show();
+        $this->deleting_material = $material;
     }
 
     public function deleteMaterial(Material $material)

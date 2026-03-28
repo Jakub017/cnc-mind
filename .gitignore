@@ -26,3 +26,7 @@ yarn-error.log
 GEMINI.md
 boost.json
 .vscode
+.mcp.json
+CLAUDE.md
+.gemini
+.claude
